@@ -1,0 +1,3411 @@
+For help on command "xxxx" enter "help xxxx" or "xxx?"
+For help on ALL commands, enter "help*"
+For help with scripting language, enter "help+"
+Enter "help [ topic ]" for possible help topics.
+
+COMMANDS:
+    absincl     agroup   alltrees  ancstates        apo     bbreak       beep
+       best    blength     blocks      break   bsupport      ccode       cdir
+     change   chkmoves      chomo      ckeep        cls   clbuffer     cnames
+   collapse    comcomp   condense  constrain      costs    cscores     cstree
+      dcomp     dmerge      drift       edit       echo     export        fit
+   fillsank      force   freqdifs       help       hold     hybrid      ienum
+    incltax       info        log       keep      kleex     length        lik
+      lmark      lmbox  lmrealign     lquote       lset   majority   matchtax
+        map     minmax   mixtrees      mkmap       mono        mrp       mult
+      mxram     mxproc      naked     nelsen    nstates   outgroup  procedure
+      pause   pcrprune      pfijo       piwe    pruncom  prunmajor prunnelsen
+    pruntax     prupdn  qcollapse    qnelsen      quote       quit  randtrees
+    ratchet     rcompl       rdir    rebuild     recons     report     reroot
+   resample     resols     rfreqs     riddup      rseed        run       runc
+       save     screen     scores    sectsch  shortread    shpcomp     silent
+      slfwt    smatrix       sort    sprdiff     subopt      svtxt     system
+     tables    taxcode  taxlabels   taxonomy    taxname    tchoose      tcomp
+     tequal      tfuse     tgroup     thanks    timeout     tnodes      tplot
+      tread      tsave    tshrink      tsize      ttags     tvault    txtsize
+      tzert       view   vversion       warn      watch      xcomp     xgroup
+     xinact      xmult      xperm      xpiwe      xread      xwipe     unique
+   unshared   usminmax        zzz
+   
+   
+ABSINCL
+    =   in tread, send excluded taxa to tree base
+    -   exclude them from tree
+
+AGROUP
+    define groups of taxa.  Syntax is as in "tgroup" (but options
+    "len", "nod", "siz", or "mono" not allowed, and
+    "agroup !;" saves only active taxa).
+
+ALLTREES
+    generate all trees for active taxa
+      &   generate all polytomous trees as well.
+      *   generate all distinct (rooted) tree shapes.
+
+ANCSTATES
+    N   define character(s) N as ancestral. Ancestral
+        states correspond to those of current outgroup
+
+APO
+      N     plot synapomorphies for tree(s) N
+      [N    plot synapomorphies common to tree(s) N.
+      -     list instead of plotting on tree
+      [-N/L list synapomorphies common to tree(s) N, node(s) L
+      ]N    list synapomorphies common to tree(s) N, on tree
+            diagrams
+      >N    list synapomorphies common to tree(s) N, as well
+            as apomorphic states, on tree diagrams.  If ">"
+            is followed by "(N)", then plots in columns of
+            maximum width N (default = no limit)
+      !C N  for landmark configuration C, plot the individual
+            landmarks that change on each branch, for tree(s) N
+
+BBREAK
+    Perform branch-swapping, using pre-existing trees as starting point.
+    Use "bbreak=options;" (change settings and run) or "bbreak:options;"
+    (change settings, don't run).  This swaps according to current settings
+    of suboptimal, constraints, and collapsing.
+
+    Basic options are:
+      tbr         use TBR
+      spr         use SPR
+     [no]fillonly swap until tree-buffer is filled, and then stop.
+     [no]mulpars  save multiple trees.
+
+    Fine-tuning options are:
+     [no]safe     The "safe" option uses a slower (but safer) method for
+                  updating buffers when finding a better tree under TBR
+                  (default is "nosafe").
+     [no]skipspr skips the SPR phase on a single tree when doing multiple
+                  RAS+TBR saving several trees per replication; "skipspr"
+                  is useful in conjunction with "nosafe", but not so much
+                  with "safe" because then the initial portion of TBR
+                  (when better trees are being found often) gets slowed down
+                  and SPR doesn't.  The "nosafe" option only makes a
+                  difference for very large data sets; note that "skipspr"
+                  modifies the behaviour of both "mult" and "xmult".
+     [no]int N    There are two options, "int 1" and "int 2" (both options
+                  identify most relevant characters for a series of swaps,
+                  option 2 also reorders characters to try to save time).
+                  These options useful only for large matrices (>10,000) with
+                  large numbers of characters; otherwise they tend to produce
+                  slower swapping.
+     [no]randclip randomize clipping sequence (with current random seed).
+     [no]preproc  with "preproc" the program tries to identify and effect
+                   first the clippings that would improve the tree the most;
+                  this has effect only on "mult" searches with hold=1 (and
+                  only when skipping the SPR phase), and TBR swapping from
+                  existing trees with mulpars off.  This may save a little
+                  time in the initial stages of the search for very large
+                  data sets, although the end gain is small.
+     clusters N   use node-clusters of N nodes.  As the data set becomes
+                  larger, clusters of more nodes produce faster TBR-swapping.
+                  When using clusters also for wagner trees, the same size as
+                  defined here is used.
+     [no]strat    for landmarks only; use a "stratified" error margin (i.e.
+                  begin low, increase as swapping advances, as set with "lmark
+                  errmarg") for the first tree swapped, final error for the
+                  last one.  Otherwise, use the final error margin from the
+                  the beginning of the swapping (intended for trees that are
+                  already optimal or near-optimal).
+
+    Included for comparability with PAUP*:
+     [no]limit N  when doing TBR, only use destinations and rerooting no more
+                  than N nodes away from the original.  Using a narrow limit
+                  in large trees makes it look at only a tiny fraction of the
+                  rearrangements, thus speeding up the search, but also making
+                  it much less likely to find the optimal tree.  Using a large
+                  limit increases the chances of finding the optimal trees, but
+                  when using this, shortcuts used in the absence of a limit are
+                  not applicable, with the result that swapping with large
+                  limits (probably above 1/4 to 1/3 of the taxa) produces a
+                  slower TBR than swapping with no limit at all.  Thus, the use
+                  of this option is discouraged, except to make comparisons wit
+                  other software using this option. N.B.: the use of limits is
+                  compatible with constraints, but when using constraints with
+                  limited TBR, only the rearrangements effectively done are
+                  counted (in contrast to the default, unlimited  TBR, which
+                  counts rearrangements violating constraints as done and
+                  rejected).
+
+BEEP
+    =   beep on errors and warning messages
+    -   don't (default)
+
+BEST
+    filter trees, discarding suboptimal
+    N   keep trees up to N steps (weighted) worse than best
+    -   invert the selection criterion
+    [   discard trees not fulfilling constraints of monophyly
+    ]   discard trees fulfilling them
+    *   collapse the trees before comparing
+
+BLENGTH
+    N;    show table with branch lengths for tree(s) N
+    *N;   same, using a tree diagram
+    > N/L for continuous characters, show maximum increase in value
+          for each branch, for tree(s) N, char(s) L.  If a branch
+          always decreases, show minimum decrease.  From command
+          line, '[' can be used instead; this can be used together
+          with '<' (see below)
+    < N/L for continuous characters, show maximum decrease, as for '>'.
+          If a branch always increases, show minimum increase. From
+          command line, ']' can be used instead.
+
+BLOCKS
+    J K L   Define blocks to start at character(s) J K L
+    ;       Show current blocks
+    *;      Save curent blocks
+    = J K   deactivate all characters and taxa not in blocks
+            J K (if list preceded by "&", only shared taxa
+            remain active)
+
+BREAK
+    =   enable breaks with <esc>, pauses with 'p' (default). During
+        searches, pressing 'm' will stop the search and move on
+        (executing the rest of commands from file or console).
+    -   don't
+    /   copy text (ending with semicolon) to display as warning if
+        calculations are interrupted ("yes" interrupts anyway)
+        By default, interruption produces no queries
+
+BSUPPORT
+    Calculate bremer supports, using trees currently in memory.
+
+    N/L   use tree(s) N, pruning taxon (taxa) L, and display results
+
+    Other options:
+
+      =N    collapse groups with support < N. If using the "!" option,
+            N can be negative; otherwise, N must be >= 0.
+      *     save tree as last tree in memory
+      [     use relative (instead of absolute) supports
+      ]     use relative supports, using only trees within absolute support
+      !N    calculate supports by TBR-swapping, for groups in tree N.  If
+            N preceded by '+' then it adds to the cost of loosing a group
+            in a tree the score-difference for the tree itself (=more
+            accurate; default is more conservative).  Using '!!' instead
+            of just '!', no groups in reference tree are collapsed.
+      :T/P  use a quick approximation to calculate the value of suboptimal
+            needed to collapse all groups in tree T, or all the groups
+            except a proportion P of the best supported groups, from branch
+            lengths (support can't be larger than branch lengths, under
+            equal weights; under implied weights, the increase in character
+            score collapsing the branch can be calculated).  This will
+            often understimate the value of suboptimal needed, but if no
+            wildcard taxa are present, only by a relatively small factor.
+            In the case of extended implied weighting or auto-weighted opti-
+            mization, it approximates the values with standard implied
+            weights. This is meant to facilitate subsequent use of the
+            "!" option of bsupport (N.B.: not advised for setting value
+            of suboptimal for searches!).
+      &X    combine absolute (A) and relative (R) bremer supports,
+            to approximmate results of resampling with P(del)=X, with
+            S = ( R x (1-X) ) ^ ( 1/A ).  Default X is 0.36. In the
+            case of implied weights, S = ( R x (1-X) ) ^ ( Wo/A ),
+            Wo=cost of adding a step to a character with no homoplasy,
+            which takes into account that (under implied weights) it is
+            possible that A < 1.  You can also divide A by a factor,
+            F, making the supports lower as F increases (or higher,
+            closer to 100% as F approaches 0), with &X*F.
+
+CCODE
+    !  re-sets ccode to the one defined in the data file
+    Other than that, sets character codes.  Specifiers are:
+         +   make following character(s) additive
+         -     "      "         "        non-additive
+         [     "      "         "        active
+         ]     "      "         "        inactive
+         (     "      "         "        Sankoff
+         )     "      "         "        non-Sankoff
+         /N   apply weight N to following character(s)
+         =N   apply N additional steps to following character(s)
+              (N.B. internal steps are always 0 for landmark
+               characters, and can't be changed)
+
+CDIR
+       change directory
+
+CHANGE
+    L/N/X Y ;   report min-max. changes from state(s) X to state(s) Y
+                for tree(s) L, char(s). N.  Can use names or numbers, and
+                enclose multiple states/names in brackets. From 01 to 23
+                counts all changes from either 0 or 1 to either 2 or 3.
+    [ L/N/X Y   same, but displays min/max. changes tree by tree
+    ] L/N/X Y   same, but displays results character by character
+
+CHKMOVES
+    Check moves that produce trees of equal score (or within specified
+    suboptimal difference), and report number of moves for each node.
+    This helps to quickly identify taxa that decrease resolution of the
+    consensus (or supports).
+    Arguments:
+         [    sort by distance, instead of number of moves
+         &    sort by rerooting depth
+         *    don't list or sort, just show moves on tree diagram
+    Options [, & or * can be followed by list of trees to process
+    (default=all), and this can be followed by the minimum value to
+    report (as /N; this is optional; default minimum is 1).  The
+    list (or the specification for the minimum value) can be followed
+    by ">N" (or "<N"), where N is the number of group to which
+    the taxa with value equal or greater than the minimum will be
+    added (or removed from).  In the case of internal nodes, all the
+    descendants of the node are added to (removed from) the group
+    specified. Note that when sorting by rerooting depth, the taxa
+    that belong to the rerooted clade are added/removed.  If macro
+    is ON, then using "=A" will store in array of name/number A,
+    the number/distance/depth for each node of the tree (a single tree
+    must be specified in this case); this can be used together with
+    ">N" or "<N".
+
+CHOMO
+    N    show homoplasy (=extra steps) for tree(s) N
+    !N   same, with polytomies as "soft"
+
+CKEEP
+         set current ccode as default
+
+CLS
+    Clear screen
+
+CLBUFFER
+    ;      clear text buffer
+
+CNAMES
+    Name character(s), state(s), or data blocks:
+    cname
+        {N1 charname state0 state1 state2 ... stateN ;
+        {N2 charname state0 state1 state2 ... stateN ;
+        {N3 charname state0 state1 state2 ... stateN ;
+        ;
+    Use '[' instead of '{' to name data blocks instead of
+    characters. N.B.: when a character is a landmark configuration
+    state0 through N in the preceding example are names of
+    individual landmarks (=points).
+    Other options:
+      *    save character names
+      !    save character names (active chars. only)
+      +N   rename char. N: charname state0 ... n
+      =    when outputting character lists, use name(s) instead
+           of numbers.
+      -    when outputting character lists, use numbers(s) instead
+           of names (=default).
+
+COLLAPSE
+    N;   set level of tree-collapsing to N
+           0   no collapsing
+           1   if some optimization implies support, keep branch ("rule 3")
+               (this is the default in PAUP*)
+           2   if ancestor and descendant state sets differ, keep branch
+               (this is equivalent to "amb-" of Nona/Pee-Wee)
+           3   collapse branch if some optimization lacks support
+               (this is the default of Nona/Pee-Wee: "rule 1")
+           4   rule 4 of Coddington and Scharff
+           5   Collapse using SPR
+           6   Collapse using TBR
+    +    collapse trees temporarily for consensus calculations (default)
+    -    don't
+    [    after a search, automatically condense trees
+    ]    don't ( default)
+    Alternatively, the options can be given as strings: none, rule 1, amb,
+    rule 3, rule 4 , spr, tbr, [no]auto, [no]tempcollapse.
+    Note that landmark characters are optimized with unique optimal positions,
+    such that ambiguity may go undetected and thus there is no difference
+    for the landmark characters among rules 1 to 4 (i.e. a branch is considered
+    "supported" if some landmark differs in position between node and ancestor)
+
+COMCOMP
+    Calculate combinable component (=Bremer ) consensus tree
+    N/L    display consensus for tree(s) N, excluding taxon (taxa) L
+    *N/L   same, but keep consensus as last tree in memory
+
+CONDENSE
+    N    collapse branches for tree(s) N, according to settings of "collapse".
+    [N   same, reinforcing constraints of monophyly (i.e. keeping constrained
+         groups, even if unsupported).
+    N/L  collapse branches for tree(s) N, ignoring taxa L.
+    /T N collapse set of node(s) N, for tree T.  Using "*" instead of T,
+         it collapses nodes of tag-tree (retaining the rest of labels); if
+         "=xxx;" is used instead of a node list, then it collapses all
+         the internal nodes labeled as "xxx"; if "<N", then all internal
+         nodes with tag less than N (likewise for ">" instead of "<").
+
+CONSTRAIN
+    =   Re-inforce constraints for mono- and non-monophyly
+    -   don't (default)
+
+COSTS
+    N = x>y z  Define transformation costs for character(s) N to be z from all
+               states in x to all states in y.  Can use square brackets to
+               enclose multiple states (e.g. [012]>3 is from either 0 or 1 or
+               2 to 3).  Using / instead of > defines costs as symmetrical.
+               The symbol ? means every possible state.
+       *       save all costs.
+       -       save costs, for active chars. only.
+       [       save costs in TNT format (default)
+       ]       save costs in SPA format
+       <       don't allow using sankoff (saves small amount of memory)
+       >       allow using it (=default)
+       &       with asymmetric Sankoff characters, relative fit difference
+               between original and rearranged tree during TBR (to collapse
+               trees, or to estimate relative or combined bremer suports) is
+               by default calculated only approximately. With the "cost&;"
+               option, relative fit difference is (possible bugs aside)
+               calculated exactly. This may use a little more RAM (specially
+               if implied weights is off) and a little more time.
+       |       reset calculation of relative fit differences during TBR
+               swapping to approximate (=default).
+
+CSCORES
+    N/L   report length/fit for character(s) L on tree(s) N
+    !N/L  same, optimizing polytomies as "soft"
+
+CSTREE
+    N = [cst]  read character state tree (=costs) for char(s) N.
+               Type cst after a carriage return, with symbols /\-| and X.
+    N <C [cst] same as '=', but change all costs larger than C to be C
+    +;         optimize character state trees by decomposing them in binary
+               variables; this is faster, and means that under implied weights
+               the fit for the character is the sum of the fits of the
+               individual variables.
+    -;         optimize character state trees as wholes; under implied weights,
+               the fit for the character is calculated using the homoplasy for
+               the entire character, which may differ from the "+" option.
+
+DCOMP
+    Compares and combines data from two files; if trees provided (within each f
+    as a "tread"), then also compares character scores to help determine which
+    characters are responsible for the difference in results
+    Usage:
+
+         dcomp outfile data1 data2 [ namefile ]
+
+    where "outfile" contains the combined results, "data1" is the newest
+    dataset, and "data2" is the oldest dataset. If settings or cell entries
+    differ in both datasets, "outfile" will contain the options corresponding
+    to the newest dataset "data1", except for taxa/characters present in
+    "data2" but not "data1" (including resolution of missing entries; this
+    can be changed so that program either queries or chooses "data2", see
+    below). The third file name, "namefile", is optional; it should contain
+    a list of taxon names (full names, case, with the name corresponding to
+    data1, if not spelled the same in data2), to be eliminated from consensus
+    and tree comparisons (this is useful when wildcards obscure comparisons).
+      In the combined dataset, the characters unique to "data1" and "data2"
+    are placed in character groups 0 and 1 (named "Unique_to_filename").
+    If trees are included in the data files, then the same thing is done for
+    taxa. Note that the numbering in both cases corresponds to the numbering
+    in the combined dataset ("outfile"); the numbering of the taxa/characters
+    may have differed in the individual datasets being compared/combined.
+      Name of output file can be preceded by:
+      !        don't use Needleman-Wunsch for string comparisons
+      -        do not compare state names to establish character identity (i.e.
+               use only the name of the character itself)
+      +        on the tree topologies provided in each file, place the taxa
+               exclusive to the other file in their best possible locations
+               (on the basis of shared characters).  If using "++", then
+               the taxa are kept for consensus calculations (else, only for
+               character scores).
+      ]        skip creation of image files (*.svg), only producing combination
+               and statistics.
+      <        do not show characters with different lengths on trees for both
+               datasets.
+      /n       action for showing critical cells, identified on the basis of
+               synapomorphies (1), tree-length differences (2), or either (3,
+               default).  Use n=0 for none, and n=4 to report only those change
+               that are identified by both methods (1) and (2).
+      *        to query matrix differences, ask taxon by taxon, instead of the
+               (default) character by character.
+      &N       use TBR-swapping to estimate differences in combined bremer supp
+               for each of the characters changing cells/settings between the t
+               matrices.  For each character, the difference in support is repo
+               first for the character changing from oldest to newest dataset f
+               then for the character changing last.  These differences are wit
+               including in the matrix the taxa present in newest but not oldes
+               The last row reports the change in support when adding each of t
+               taxa present in newest but not oldest (one at a time).  The numb
+               is the minimum difference in combined bremer support to report a
+               change (0<=N<=100; default N=5; use N=0 to report influence of a
+               character/taxon changes. Keep in mind that this is estimated qui
+               (by means of a single round of TBR), so that it is only a rough
+               approximation to the difference in supports.
+      |        like "&", but displays results in the form of a table.
+      :X name  save in array named "name" lists of correspondences for taxa or
+               characters. "X" is a two-letter code, which must include either
+               't' (taxa) or 'c' (characters), and either 's' (correspondences
+               matched taxa/characters, for 's'hared), or 'm' (closest 'm'atche
+               for unmatched taxa/characters).  The array must contain at least
+               many cells as the number of taxa/characters in the first matrix.
+               After running, the value of cell N in the array will contain the
+               number of the taxon/character of the second matrix that matches
+               element number N in the first. Cells with a value of -1 indicate
+               non-match (for 's'), or a non-approximate match (for 'm').  The
+               list of correspondences for taxa/characters in the _second_ matr
+               if needed, can be reconstructed from the list produced by "dcomp
+    Default action for combination is 'y', but can be indicated within parenthe
+    either for a specific query, or all queries (if not preceded by letter code
+      (tcsdmoaql ynbi?)
+       t      taxa; ask ('?') whether similarly named taxa are the same ('y' or
+              if using '!', names must be identical (no taxon queries in this c
+       c      characters; if option '-' not used, then state names are expected
+              match (exactly or approximmately, depending on '!') as well; if t
+              don't, query ('?') whether they're the same character ('y' or 'n'
+       s      states; state names must match approximately (default, ask whethe
+              similar names correspond to the same state, '?'; or 'y', 'n'), or
+              exactly (when using '!').
+       d      data; differences in observed entries of matrix cells, for discre
+              characters.  Query ('?') whether states of first matrix should be
+              second ('n'), or both ('b', as a polymorphism).  If several diffe
+              exist for the current character (or taxon), then you can also ans
+              'a' (accept all), or 'r' (reject all).
+       m      replace missing with observed entries ('y'), don't ('n').  Defaul
+              treating missing entries as other scores ('i', ignore).
+       o      when options (=settings) for characters (additivity, weights, san
+              different, query for preserving settings of first ('y') or second
+              matrix.
+       a      if state sequence in additive characters different, preserve sequ
+              first file ('y'), or use sequence in second ('n').  Note that seq
+              may be shifted (without altering it) by adding states at the begi
+              the end.
+       q      action for quantitative (=continuous) characters.  These are usua
+              so that a different scaling for the same character can produce di
+              in the two matrices; dcomp takes the two most-distant taxa in the
+              (present also in the second matrix; these are usually the smalles
+              taxa in first matrix, but may not be so in the presence of polymo
+              and rescales both characters to the same range; if the rest of th
+              identical, then the two characters are merged on that scale; if l
+              20% of the taxa have differences, then user is queried for mergin
+              on the common scale using values of first matrix ('y'), second ('
+              range encompassing both matrices ('b').  If more than 20% of taxa
+              after common rescaling on those two shared taxa, then missing ent
+              matrix are retained as missing entries (no questions asked).
+       l      action for landmark characters (=configurations); if a taxon is s
+              configuration in both matrices and the landmark coordinates are s
+              (with a sum of lineal distances between configurations below 10^-
+              is done; otherwise, configuration in the second matrix is sized,
+              and rotated against first; if this still results in different con
+              then a query is issued for retaining coordinates in first matrix
+              using instead the coordinates for the second ('n').
+    Inside the parentheses, use ">storefile" (or "<storefile") to create (or re
+    a file storing all the decisions.  This requires that the same options (and
+    be used. An output "storefile" interrupted (with <esc>) subsequently used a
+    "storefile" returns control to user when reaching end of instructions.  Bot
+    and input storefile can be indicated in this case, so as to complete the ou
+    with the decisions not yet stored in the input storefile.
+      Also, inside the parentheses you can include a letter 'f' ('f'orced match
+    by a filename, containing pairs of matches (number in first dataset, number
+    dataset), for taxa and characters (each list of pairs preceded by "*taxa" o
+    "*characters").  This forces the specified pairings between taxa/characters
+    of names.  Separating the pair of numbers by '!', the two taxa/characters (
+    identically) are forced to be different (and, in the case of taxa, appended
+    "_B", to make multiblock matrices readable).
+      Note that this ("dcomp") is also a scripting expression, returning the nu
+    differences between the two input datasets.
+      The results of the comparisons are (by default) saved as image (SVG) file
+    synapomorphies for groups present in one of the data files but not the othe
+    viceversa, as well as a colored diagram ("matrix_differences.svg") to show
+
+DMERGE
+    dmerge     merges files; syntax is:
+                    dmerge OUT =DIR IN1 IN2 ... INn
+               merges files IN1 to INn (from directory
+               "DIR", optional) into file "OUT".  If
+               name of outfile preceded by "|", then it
+               treats input files as TPS (=landmark) files.
+    dmerge*;   merges characters with identical names
+
+DRIFT
+    Do tree-drifting, from trees in memory.  Options are:
+      iterations         number of cycles (=iterations) to do
+      numsubs N          number of replacements (i.e. accepted tree
+                         rearrangements) to do in perturbation phase
+      xfactor N          larger values make acceptance of suboptimal
+                         trees less likely
+      [no]autoconst N    number of constrained cycles
+      [no]giveup N       max. percentage of full swap to do in perturbation
+                         phase.  This is an int, so 99 means don't give up
+      fitdiff            max. difference in absolute fit
+      rfitdiff           max. difference in relative fit
+      findscore N        stop drifting when score N hit
+      [no]equals         alternate perturbed and unperturbed drift cycles
+                         (note: for landmark data, unperturbed cycles are
+                          never done).
+      [no]fuse NxR       every N iterations, do R rounds of fusing to the
+                         N trees
+      [no]dumpfuse       if fusing fails to produce a better tree, [don't]
+                         dump all the suboptimal trees
+      flat N             run the first N iterations using the relative
+                         fit difference defined with rflat
+      rflat N            max. difference in relative fit difference
+                         for initial iterations
+      flatnumsubs N      number of replacements to do for initial iterations
+      [no]pert           never accept suboptimal rearrangements (i.e. "drift"
+                         only wanders around in the island; this does force
+                         unperturbed cycles in the case of landmark data).
+    Options set with "drift:[options];" or "drift=[options];" (first
+    case changes settings only, second case runs). Using "drift:;" current
+    settings are displayed
+
+EDIT
+    X Y   edit node Y of tree X.  Then, J L sends J to node L.  If J is an
+          an ancestor of L, reroots clade J on L. /N collapses node N (this
+          can be given as a list, with nodes separated by '+').
+
+ECHO
+    =   echo each command
+    -   don't echo
+
+EXPORT
+    export data in NEXUS format.  If filename followed by "+",
+    copies everything to the end of the NEXUS file, until a semi-
+    colon is found (use it to embedd PAUP* or TNT commands in
+    the file).  TNT commands can be included at the end of the
+    file, preceded by "begin tnt."
+    Possible arguments (before file name):
+        *     trees as well
+        +     step-matrices as well
+        -     trees only (including tree-tags, if defined)
+        >     tree-tags only, as branch lengths
+        <     tree-tags only, as branch labels
+        [     save as dna
+        ]     save as standard
+        !     save as Fasta instead of Nexus (!! skips gaps)
+        =     save trees only, pure Newick
+        |     save in TPS format.  Syntax is:
+                export | filename C T ;
+              this saves to file character (=landmark
+              configuration), including ancestral states
+              for tree T (only if T, optional, is specified).
+
+FIT
+    N   report total fit, for tree(s) N.  It is measured with a convex
+        increasing function, to be minimized
+    !N  same, optimizing polytomies as "soft"
+    *N  report total fit (measured with a concave decreasing function, to
+        be maximized; the equivalent of what PAUP* and Pee-Wee report)
+
+FILLSANK
+    =   complete polymorphic cells for Sankoff characters
+    -   don't (default)
+
+FORCE
+    ;   report present constraints
+    ]   de-activate constraints
+    =   followed by a tree, use groups in tree (&N uses tree N)
+    /   followed by a tree, use tree as skeleton tree (&N uses tree N)
+        (if outgroup is excluded, it acts as a "convexity" constraint)
+    :   same as /, but for negative constraints
+    +   positive constraints: [ a b c  (d e) ] ( taxa d and e float;
+        if outgroup is floating, acts as a "convexity" constraint)
+    -   same as +, but negative
+    >N  taxon(taxa) N floating for all positive constraints
+    <N  same, for all negative constraints
+    *   report number corresponding to each constraint
+
+FREQDIFS
+    Calculate frequency difference tree (FDT)
+    =N      use N as cutoff
+    N/L     display FDT for tree(s) N, excluding taxon (taxa) L
+    [J]N/L  calculate frequency differences for each group of
+            tree J, on tree(s) N, pruning taxon (taxa) L
+    (J)N/L  same, but display results as table
+    *N/L    same, but keep FDT as last tree in memory
+
+HELP
+    ;     display list of commands
+    *     display options for all commands
+    xxx   display options for command xxx (equivalent to xxx ?)
+    !N    when parsing names for commands, taxa, or other,
+          check for typing errors (N = max. string similarity,
+          default = 0.75), with a Needleman-Wunsch algorithm.
+    >N    like previous one, but also applies Needleman-Wunsch
+          to options (strings) within commands.
+    <     no Needleman-Wunsch for name matching.
+
+HOLD
+    N     set tree buffer to keep up to N trees
+    +N    increase max. trees to number of trees in memory + N (++ = 1 )
+    -N    decrease max. trees to number of trees in memory - N (-- = 1 )
+    N/V   set a "tree-vault" in internal memory, where trees can be
+          placed to be protected from other commands (e.g. search commands)
+          This sets max. trees to be N, vault size to be V.  Trees can
+          be placed in the vault, or retrieved, with the "tvault" command.
+          Subsequent execution of the "hold" command  (other than the
+          default ';') resets the vault (discarding trees from the vault).
+
+HYBRID
+    hybridize/complete trees.  This exchanges non-identical groups
+    pruning unshared taxa, so that resulting tree is incomplete.
+    This is meant to be used in cases where tree-fusing (which
+    exchanges only identical groups) cannot improve the tree,
+    by virtue of the trees being too different (i.e. very poorly
+    structured data), but it outperforms tree-fusing rarely.
+    X Y/Z   exchange a chunk (with no more than Z unshared taxa)
+            between trees X and Y, then complete trees and swap.
+            Note that X Y may be a scope (or a tree-group) containing
+            two trees.
+    -X Y/Z  same, but don't complete or swap trees
+    +N      if tree N is incomplete, sequentially add missing taxa
+    *N      same, but also swap (TBR, nomulpars)
+
+IENUM
+    Do implicit enumeration (=results guaranteed to be optimal;
+    feasible only for small data sets)
+    Options:
+       &      when there are N most parsimonious trees, but maxtrees
+              is set to a smaller number, take a (pseudo)random sample
+              of the N trees, such that each tree has a prob. of about
+              maxtrees/N to be sampled. Works better as maxtrees/N is
+              closer to 1.
+       -      deactivate a bounding method speeding up many well-
+              structured data sets (usually produces slower searches)
+
+INCLTAX
+    [N   report which taxa are included in tree(s) N (default)
+    ]N   report which taxa are excluded from tree(s) N
+
+INFO
+    +   report which character(s) are informative (default)
+    -     "      "        "       are uninformative
+
+LOG
+    xxx   open log file xxx (use "stdout" if redirecting output)
+    +xxx   open in append mode
+    /     close current log file
+
+KEEP
+    N   keep no more than N trees, discard the rest
+
+KLEEX
+    Calculate clique (=compatibility) trees, using James
+    S. Farris' fast implementation of Bron-Kerbosch's
+    algorithm for maximal cliques.  Applicable only to
+    binary data with no missing entries.  It is an exact
+    enumeration of all maximal cliques, and thus not
+    practical (or applicable) to too large inputs. Useful
+    for purposes of comparison (e.g. with TNT's algorithms
+    for heuristic searches).
+
+LENGTH
+    N   report total length, for tree(s) N
+    !N  same, optimizing polytomies as "soft"
+
+LIK
+      T/C  Calculate likelihood (single rate, jukes-cantor only) for
+           tree(s) T and character(s) C.  Settings with "lset".
+
+LMARK
+    Map and handle settings for 2D and 3D data (landmarks)
+    Options:
+      ambig         specify which points to choose in the case of ambiguity
+                    (rarely needed, as ambiguity is uncommon).  Examples:
+                       ambig YxZ C  chooses maximum y first, if ambiguity
+                                    remains minimum x, and if ambiguity remains
+                                    maximum z (ambiguities in unspecified
+                                    coordinates are solved randomly), for
+                                    character(s) C.
+                       ambig * C    choose randomly (=default).
+                       ambig ;      display current setting.
+      cells N       divide grid in N cells
+     [no]confsample when calculating relative bremer supports or resampling,
+                    sample entire configurations (no=individual landmarks).
+      connect       define connections between points for display. Format is:
+                        lmark connect C La-Lb Ld-Le Ld-La ;
+                    this defines lines ("wireframes") from landmark A to B,
+                    D to E, and D to A, for configuration C.  This is used
+                    only for diagrams; it does not affect any calculation. To
+                    specify connections for more configurations, separate the
+                    specifications for each configuration with a slash.  Every
+                    time this command is issued, the connections are reset to
+                    the new specification.
+      dims          show a table with dimensions (if continuous, 1; if discrete
+      errmarg N     during branch-swapping searches, use N% of tolerance above
+                    the score calculated initially with faster shortcuts. Highe
+                    values of N make for safer but slower searches, and vicever
+                    (default N= 5%). Instead of a number N, symbols "+" or "-"
+                    can be used to turn reports of landmark shortcuts on/off
+                    (respectively) during "mult" or "bbreak" searches.  Note
+                    that the actual error is calculated on cases evaluated with
+                    a full optimization, the number of which may in turn depend
+                    the error margin set by the user.
+                    Alternatively, it is possible to specify an error margin th
+                    varies during the search, so that it is low in the initial
+                    (where better trees are easily found) and stricter at the e
+                    (where you want to make sure that no better trees in the TB
+                    SPR vicinity are missed because of miscalculations).  You c
+                    specify between 2 and 6 stages of error.  The syntax is:
+
+                          lmark errmarg A-B-D/X-Y-Z
+
+                    this will use error margin 0 until X% of the clippings to c
+                    swapping have been effected, error margin A between X and Y
+                    swappings, error B between Y and Z of the swapping, and err
+                    at the final stage (after Z% of swapping completed). To spe
+                    only two stages you would do:
+
+                          lmark errmarg A/X
+
+                    which will use error margin 0 from start to X% of swapping,
+                    then error margin A.
+                    If the last error margin (e.g. D in the first example) is f
+                    by "<N", then the last error margin will be the smallest of
+                    the error observed up to that stage of the calculations plu
+                    standard deviations; likewise for ">N".  This is a way to l
+                    the eror margin be determined, to some extent, by the data
+                    hand (N.B.: the observed error continues being calculated a
+                    switching to the final error margin, so the report may be d
+                    from the final error used).  When this option is in effect,
+                    search status report informs the current error margin (as "
+                    The variable error margins are used during the initial stag
+                    multiple random addition sequences (with "mult" or "xmult")
+                    well as after rebuilding a tree with the commands "hybrid"
+                     or "rebuild".
+      factors       define factors for the individual landmarks.  These are the
+                    used *instead* of the factors determined automatically.
+                    Syntax is:  factors =F C/L, which uses factor F for charact
+                    C, landmark(s) L (if no C or L specified, it's all C or L;
+                    if F is "*" then automatic factors are used for C/L).
+                    Note: factors are used only when implied weighting is off!
+                    With implied weighting OFF, factors multiply the score.
+                    With implied weighting ON, factors are always unity.
+     [no]inscale   [don't] weight individual landmarks so that the contribution
+                    of each landmark within a character is similar (i.e. give
+                    landmarks with a larger range a lower weight) (default = do
+                    Note that any of the two choices makes the contribution of
+                    landmark character (unless modified with "lmark wts") simil
+                    to that of a step in a discrete character, by weighting bas
+                    on the range of the landmarks and the number of landmarks.
+     [no]iter       in addition to sankoff approximmation, iterate exact calcul
+                    of geometric medians.  For dichotomies, this uses an exact
+                    solution for the Fermat point (ancestor-left-right descenda
+                    with functions written by S. Catalano with collaboration fr
+                    P. Goloboff.  For polytomies, a heuristic approximmation of
+                    the geometric median is used.
+      list          list character types.  Default is listing dimensionality of
+                    each character.  List - lists only one-dimensional characte
+                    list + does the opossite; list N lists all characters of N
+                    dimensions.
+     [no]lowmem     use low memory calculations (possibly slower)
+      lscores N/C/L report individual landmark scores in tree(s) N, character(s
+                    C, landmark(s) L (default=all).  List L can contain landmar
+                    names (if defined) only if list C contains a single charact
+      map N/C       map character(s) C on tree(s) N
+      maxiters N C  iterate up to N times, cut when improvement below C
+      maxprec N     skip characters with range (max. dist) below N
+      multimap      show ambiguity in point mapping.  Syntax is :
+                        multimap R T C L
+                    where R=replications, T=tree, C=character, and L=landmark.
+                    Variability indicates either ambiguity in optimization (if
+                    settings exhaustive) or errors in optimization algorithms
+                    (if settings superficial).
+      nest N W      nest sankoff approximmation N times, with a Window of W cel
+      numlands      display a table with number of landmarks in each configurat
+      option        display all current settings for landmark optimization
+      precision     report expected precision of individual points under sankof
+                    approximmation
+     [no]quickwag   after adding each taxon in a Wagner, recalculate position f
+                    each point from scratch (instead of using Farris's 1970 "me
+                    method").  This is much slower, and does not add much preci
+                    --incomplete taxon subsets are more influential than errors
+                    point locations.  This is not recommended, included only as
+                    way to test the accuracy of the "median" method.
+      refine BxR    during branch-swapping searches using an error margin, refi
+                    ancestral point positions for trees that are near-to-accept
+                    by incrementally re-calculating fermat points away from uni
+                    node, up to B branches away from union, with up to R rounds
+                    refinement (default=don't).
+      rescale       multiply each value by a factor.  Note this modifies the ma
+                    in memory.  Syntax is:
+                        rescale =F C/L
+                    where F=factor (if F is "*", then it uses current factors f
+                    each landmark), C=character(s), L=landmark(s).
+      shake N       in first sankoff approximmation, slightly distort grid N ti
+     [no]showhtus  [don't] show HTU's coordinates after mapping (default = don'
+     [no]shrink     shrink grid if there are outliers (useful for low cell valu
+                    8 or less, probably won't help for cells > 10).
+      swap XY       swap values of XY (or XZ, YZ)
+     [no]skip       during the first sankoff approximmation, try to quickly ide
+                    cells not needed (may save some time).
+     [no]termpoints make sure the first Sankoff matrix contains terminal points
+                    With "termpoints -" no grid is used, only the points of ter
+                    taxa; "termpoints +" reconnects the use of grid.
+      usmin         set (or display) current minima for implied weighting.  Def
+                    is maximum span of Steiner tree for any triplet of taxa.  T
+                    quickly sets an upper bound for the actual minimum, but may
+                    overestimate it.  The user can set a different value (e.g.
+                    search for each individual landmark).  Syntax is:
+                        usmin =M C/L
+                    where M=minimum, C=character(s), L=landmark(s).  If M is "*
+                    then it uses default; this is quick but will generally unde
+                    timate minimum, so that homoplasy is overestimated and impl
+                    weights underestimated.  Using "!" instead of "*" will buil
+                    a Wagner tree plus TBR on the specified landmarks, then usi
+                    the resulting values as user-set minimum values.  This is
+                    obviously much more time consuming (you may save the result
+                    values to a log file for subsequent input, so that minimum
+                    need to be recalculated again).  For 2D data, just one Wagn
+                    TBR usually converges onto actual minimum for most settings
+                    number and error margin; convergence for 3D data seems to b
+                    common.  The values obtained are the same as the scores you
+                    obtain if setting implied weights off, the weights (wts) fo
+                    but the landmark of interest to 0 (and the weight of the la
+                    of interest to 1), and the factor to unity; in this way you
+                    perform searches more exhaustive than just a Wagner+TBR.  N
+                    that a user minimum larger than the actual one will underes
+                    the amounts of homoplasy and overestimate implied weights (
+                    if detected during a run, corrected).
+      wts           define weights for the individual landmarks.  These are the
+                    *combined* with the factors determined automatically.
+                    Syntax is:  wts =W C/L   which gives weight W to character(
+                    C, landmark(s) L (if no C or L specified, it's all C or L;
+                    if W is "*" then unit weights are used for C/L). These weig
+                    affect the scores under implied weighting, except for those
+                    landmark characters which are part of a weighting-set (see
+                    under "xpiwe"); in that case, those individual landmarks ar
+                    always weighted equally within the set.
+
+LMBOX
+    Save landmark box(es) to the specified SVG file.  The SVG extension should
+    specified; this image file can be opened with any web browser.
+    Syntax:
+
+        lmbox filename T C = L;
+
+    where T tree number, C character number, and L list of taxa (either termina
+    or internal nodes).
+    The displaying of lines, landmark numbers, or other parameters can be speci
+    before the "=" symbol:
+
+       line +cgfplnsd  turn ON the display of each option (with '-' instead of
+                       turn OFF); options: c connectors, g grid lines, f frame
+                       p apomorphic displacements, l lines, n landmark numbers,
+                       s user defined lines, d descendants.
+       tilt F-L/N      set tilt (3d only); this displays N boxes, the first wit
+                       tilt F, the last with L, increasing by (L-F)/N every tim
+       rot F-L/N       set rotation (3d only); this displays N boxes, the first
+                       rot F, the last with L, increasing by (L-F)/N every time
+
+LMREALIGN
+    Realign specified landmark configurations (=characters)
+    Keep in mind that the realignment modifies the matrix held in memory,
+    so that it is not possible to go back to the original coordinates
+    except by re-reading the data file.
+    Twopoint (p1 p2)/C  align character(s) C using baseline registration consid
+                        landmarks p1 and p2 as reference. Valid only for 2D
+                        characters.
+    Rftra  [N]/C        align character(s) C in all taxa against taxon N using
+                        repeated medians procedure (Siegel & Benson 1982). Vali
+                        for 2D characters.
+    Pairlin [N]/C       align character(s) C in all taxa against taxon N minimi
+                        the sum of linear distances.
+    Tree T cycles Y level L/C  align character C on tree T using a tree-based a
+                        parsimony as optimality criterion (Catalano & Goloboff
+                        Y= number of cycles of improvement/perturbation.
+                        L= thoroughness in improvement step (0-4).
+    Random N            rotate/translate all configurations at random. Does N c
+                        changes to  the alignment.  Useful for exploring the  d
+                        effectiveness of alignment algorithms.
+        !               Adjust size as well (Option valid only for Rftra and Pa
+    The "pairlin", and "tree" options take into consideration the weights defin
+    the user for each landmark (with lmark wts). This allows aligning by consid
+    (giving zero weight to the rest of the landmarks
+    NOTE: the code for aligning was written by Santiago A. Catalano in collabor
+    with P. Goloboff.
+
+LQUOTE
+    =      set literal quotes on (see "quote")
+    -      set literal quotes off (see "quote")
+    [      within "quote" read &N as ASCII character N
+    ]      don't
+
+LSET
+    Change settings for likelihood calculations.
+        passes I E      maximum number of internal/external passes
+        ldelta          delta for likelihood
+        bdelta          delta for individual branches
+       [no]gstatespace  [don't] use the same state space for all characters
+                        (only for morphological data), scripting expressions
+                        implik, simplik, and mklik (default=gstatespace)
+        display         lik (default), brlen (optional).  This affects the
+                        display of scripting expressions implik, simplik,
+                        and mklik (and only if "report" is ON).  As the
+                        (character) likelihoods or (branch) lengths are
+                        displayed, they can be stored into user variables
+                        for use in scripts, with "maketable".
+
+MAJORITY
+    Calculate majority rule tree (MRT)
+    =N       use N as cutoff
+    N/L      display MRT for tree(s) N, excluding taxon (taxa) L
+    [J]N/L   calculate frequencies for each group of tree J,
+              on tree(s) N, pruning taxon (taxa) L
+    (J)N/L   same, but display results as table
+    *N/L     same, but keep MRT as last tree in memory
+
+MATCHTAX
+       This command allows establishing possible taxon correspondences for
+    two trees with different taxon sets (e.g. larvae vs. adults, e.g. males vs.
+    females), and identifies taxa that (based on topological correspondence)
+    could be made equivalent (e.g. matching unmatched larvae-adult, or males-
+    females).  To understand how this works, you can try as example:
+
+                        A  B C D   X B C Y
+                         \/ / /    \/ / /
+                          \/ /      \/ /
+                           \/        \/
+
+                    which produces:
+
+                         A=X  B C D=Y
+                            \/ / /
+                             \/ /
+                              \/
+
+    Please note!  This command is experimental and not very efficient; it
+    may be replaced in the future by better algorithms. It is intended only
+    as a proof-of-concept implementation.
+        X Y       for taxa present in only one of the trees, identify
+                  possible correspondences between taxa in each tree,
+                  by enumerating all possible combinations of correspon-
+                  dences and counting the number of consensus nodes for
+                  each.  Practical only for low numbers of unmatched taxa
+                  By default, it uses the semi-stric consensus; preceding
+                  the tree numbers with "-" it uses the strict (preceding
+                  with "+" re-establishes the default).  This option
+                  establishes up to 100 possible sets of correspondences.
+       !X Y       instead of number of consensus nodes, use the sum of steps
+                  of the MRPs as criterion (making the trees more similar),
+                  matching taxa heuristically (with cycles of perturbation
+                  and improvement using taxon switches guided by changes
+                  in the mapping of each MRP on the other tree).  Faster,
+                  but not guaranteed to produce optimal results.  This must
+                  be the first argument (preceding "Other options").
+    Other options:
+       Preceding tree numbers:
+           &      show list (instead of tree-diagrams)
+           *      save the trees with taxa replaced (e.g. for subsequent
+                  calculation of a supertree, combining the trees with the
+                  unmatched species found in only one of the trees). The
+                  taxa in second tree are replaced by their equivalent in
+                  first tree; unmatched taxa retain their own label.
+           :P     use a penalty P for not matching.  This differs in the
+                  enumerative and heuristic options.  For the enumerative,
+                  P can be interpreted as the "distance" in number of
+                  nodes to establish a matching (taxa more than P nodes
+                  away in the trees are left unmatched). For the heuristic,
+                  P is added to the MRP score of the two trees with a pair
+                  of unmatched taxa, so that accepting the non-match depends
+                  on how much the MRP steps are improved by non-pairing.
+           +      consense with bremer (=semistrict) consensus[default].
+           -      consense with strict consensus.
+      Following tree numbers:
+                  The two tree numbers can be followed by a list of user-set
+                  possible correspondences (default tries to match every
+                  taxon in only tree A with every taxon in only tree B). The
+                  format to specify allowed and forbidden correspondences is:
+
+                         /taxon_a = taxon_x taxon_y  /taxon_b ! taxon_x
+
+                  which means that taxon_a of one of the trees can be the
+                  same as taxon_x or taxon_y of the other, but no other
+                  correspondence is allowed, and that taxon_b in one of the
+                  trees can be matched to any of the taxa only in the other
+                  tree except taxon_x.  Note that "/a=b" is not equivalent
+                  to "/b=a" if there are several taxa of uncertain matching
+                  (the first limits possible matchings of a, the second
+                  limits possible matchings of b).
+    See also under "help+matchtax" for use in scripts.
+
+MAP
+    N/L    map character(s) L on tree(s) N
+    -      show optimization for character(s) L on tree(s) N, as a text list
+    :      show down-pass state sets instead of final
+    [      state super-sets for character(s) L on consensus for tree(s) N
+
+MINMAX
+    ;    show minimum-maximum possible steps for each (active) character
+    -    same, considering only active taxa
+    *    combine minimum/maximum in a single table
+    +    show minimum-maximum for continuous character(s)
+    <    show only minimum
+    <    show only maximum
+
+MIXTREES
+    N/L    combine trees N (with different sets of taxa), excluding taxon
+           (taxa) L.  Combines only uncontradicted groups. Using =J it does
+           J different input orders.  Using =[J k] it recalculates consensus
+           every k randomizations, until stability is reached J times.
+    *N/L   save the tree as last memory tree ( default = show)
+
+MKMAP
+    T C    Map character(s) using Mk model, for tree T, character(s) C;
+    Options:
+      =N        show state sets only, for states with likelihood contribution
+                N or more relative to next best state (0 < N <= 1 ). If N = 0
+                (=default), then it shows the relative contribution of each
+      *         state display branch lengths on a tree-diagram (in this case,
+                character(s) to map can be ommitted)
+      T/var     instead of optimizing branch length of tree T based on all
+                active  characters, get branch lengths from user variable "var"
+    Note! This assumes a common model for all the characters; included only
+    to facilitate experimenting with Mk model.
+
+MONO
+    N    check whether tree(s) N satisfy constraints
+    -N   check whether tree(s) N violate constraints
+    *    same, but reporting group by group
+
+MRP
+    Create matrix representing trees in memory
+
+MULT
+    do N random addition sequences, followed by rearrangements.
+    Options are:
+      wagner       no branch-swapping
+      spr          use SPR branch swapping
+      tbr          use TBR branch swapping
+      [no]keepall  keep the trees from all replications
+      replic N     do N replications
+      hold N       save up to N trees per replication (only if swapping)
+      [no]ratchet  do ratchet as well (settings with "ratchet" command)
+      [no]drift    do drift as well (settings with "drift" command)
+      [no]wclus N  after adding N taxa to the wagner tree, start using
+                   node clusters (of size defined with "bbreak:clus SIZE").
+                   Useful only for very large data sets (several K-taxa).
+      outfreq N    frequency for which reports are produced during branch
+                   swapping (default is every N=10 clips, but for large data
+                   sets this implies reports take too long to be produced).
+      ras          use randomized addition sequences for Wagner trees
+                   [default, works best for most data sets]
+      cas N        use closest-addition sequence for Wagner trees (ties in
+                   the addition sequence broken randomly), looking ahead up
+                   N taxa (no N = all taxa). Tends to work best on data sets
+                   with a lot of incongruence.
+      fas N        as previous one, but using furthest addition sequence
+      ias N        as previous one, but select first those taxa which make
+                   the largest number of characters informative (N.B. only
+                   additive/nonadditive characters considered for this; the
+                   other character types have no influence on the sequence).
+                   Tends to work best on data sets with many missing entries
+                   and non-overlapping blocks of data.
+      sas N        as previous one, but select first those taxa with the
+                   largest difference in score for best/worst locations (N.B.
+                   all character types are considered). Works best for the
+                   same data sets as the previous one ("ias"), but it is
+                   more thorough and slower
+    Usage: "mult:options;" changes settings only; "mult=options;" runs
+    as well.  Entering "mult:;" current settings are reported.  Setting
+    the type of addition sequence also determines the sequence to be used
+    in other commands (e.g. "xmult", "pfijo").  The insertion sequence
+    is always random for "cas", "sas", and "fas"; it can be changed (see
+    under "rseed") to be random or non-random for "ras" and "ias"
+
+MXRAM
+    N   Use N Mbytes of RAM.  The default is 16 MB.
+        Must be changed before reading the data, or the
+        data will be lost.
+    ;   report amount of free RAM
+    +   when allocating memory for searches, make sure that
+        at least an additional 5%% of free memory is available;
+        report an error before starting the search otherwise
+        (this decreases the likelihood that the program will
+        run out of memory _after_ having started the search).
+    -   don't require a free 5%% (use it only to squeeze the
+        last few bits of memory out of your system; make sure
+        you don't use it together with the default, "mxram[;"
+    [   when reading a dataset, increase available RAM if needed
+    ]   don't
+
+MXPROC
+    N   allow up to N nested input files (default=10)
+
+NAKED
+    =   show tree diagrams without numbers (default)
+    -   with
+    ]   draw trees in narrow format
+    [   in default (=wide) format
+
+NELSEN
+    Calculate strict consensus tree
+    N/L    display consensus for tree(s) N, excluding taxon (taxa) L
+    *N/L   same, but keep consensus as last tree in memory
+    N/L/P  display consensus for tree(s) N, excluding taxon (taxa) L,
+           and indicate placement of taxon (taxa) P (P may refer to
+           node numbers in the consensus)
+    <      always use low-memory algorithm (sometimes, faster)
+    >      use low memory algorithm only when memory is low
+    Note that settings established with ">" and "<" also
+    affect the "tcomp" command.
+
+NSTATES
+    N      set maximum number of states in matrices to be subsquently read to N
+           Note that 8 or fewer states is stored as char, 9 to 16 as Tint
+           and 17 to 32 as Fint.  Maximum number allowed for discrete data
+           is 32 states.  Letters A-J are states 10-31.
+           Using the strings "DNA," "PROT," or "NUM," determines
+           whether data are read as dna, amino-acids, or alpha-numeric. The
+           string NUM must be followed by the number of states; DNA or PROT
+           automatically set number of states to 8 or 32. Under DNA or PROT,
+           IUPAC one-letter codes represent nucleotides or amino-acids.
+           For DNA, AGCT are states 0123 respectively; for proteins,
+           A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y,U are states 0-20.
+           Strings "GAPS" and "NOGAPS" determine whether gaps are read
+           as fifth state or missing (respectively).
+    *      resets all characters as alphanumeric; subsequent
+           merging of data sets with different data sets becomes easier if all
+           data sets are saved as alpha-numeric
+    &      like previous one, but sets all characters to type DNA.
+    min    deletes uninformative states for non-additive characters, so that
+           each character has as few distinct states as possible
+    stand  standardize continuous characters, so that minimum number of steps
+           equals a specified value.  Format is:
+               stand F L  rescale character(s) in list L (default=all continuou
+                          to have a minimum of F (default F=unity).  If F
+                          preceded by "*" then it rescales so that the minimum
+                          for the set of active taxa equals F (all taxa are
+                          rescaled, however; minimum for the full taxon set
+                          may then exceed F).
+    xmin   for non-additive characters with polymorphisms, calculate minimum
+           possible numbers of steps (and thus, informativeness and homoplasy)
+           using exact algorithms (=default; these may be time consuming for ma
+           states and many polymorphisms).  With "noxmin", a heuristic is used
+           to determine minima (it may underestimate minimum).
+    /      followed by the strings "DNA," "PROT," or "NUM,"  determines
+           how to read states in commands that refer to states (i.e. cost, or
+           change commands).  This does not alter the matrix itself.
+    [      if the matrix contains continuous characters, and these were rescale
+           display values in the original scale.  Keep in mind that there may
+           be some imprecision in the conversion back.  This affects only the
+           commands that calculate branch lengths, map characters on trees, and
+           give lists of synapomorphies.  Tree lengths themselves continue bein
+           the same, as the characters continue being stored internally as 0-65
+           with 3 decimals.  This does not affect, either, the values returned
+           by scripting expressions (including iterrecs); those have to be
+           converted explicitly by user with the "contscale" expressions.  The
+           rescaled values will be displayed using the number of decimals set
+           with the table precision command ("table/").
+    ]      display continuous characters in the scale stored internally.
+
+OUTGROUP
+      N     make taxon N the outgroup (default = 0 )
+      [XXX  if taxonomy has been defined, make group "XXX" the
+            "taxonomic outgroup".  This is a possibly multi-taxon
+            outgroup, which may be used to root the trees after
+            searches, or with the "reroot[" option.  In case the
+            taxonomic outgroup does not exist in the tree, the closest
+            group is used (if nothing resembling the ingroup/outgroup
+            partition exists, then a note is displayed, and the tree is
+            left rooted on the regular outgroup). If the name "XXX" is
+            ommitted, then the taxonomic outgroup is guessed form the
+            taxonomy.  To have TNT reroot the trees after a search, use
+            "!" before the category name (default is rerooting trees
+            only when a "reroot[;" command is issued).
+            Note that if you have some Sankoff characters with asymmetrical
+            transformation costs, or have the "piwe+" option in effect,
+            then it is possible that using the taxonomic outgroup may
+            alter tree scores.
+
+PROCEDURE
+    Redirect input
+      XXX;   take commands from file XXX
+      /;     close input file (include at end of file)
+      &XXX   read Fasta file XXX.  It must be aligned.  If not, all
+             sequences can be "equalized" to N characters, by adding
+             gaps at the end, if & is followed by =N (alternatively,
+             =N can be placed at the beggining of the file.
+      [XXX   read file XXX as Newick trees (e.g. RAxML trees)
+    Note that input may also be redirected automatically (almost
+    within any context) using "@@filename tagname;" (reading is
+    from point marked with "label tagname" on, with end of
+    automatic redirection indicated with @@; if a dash, -, is used
+    instead of tagname, the file is done from the begginning)
+
+PAUSE
+       =   enable pauses on output
+       -   don't (default)
+
+PCRPRUNE
+    Improve consensus by Iterative PCR (Pol & Escapa, 2009).
+         N/L\U      improve consensus of tree(s) N, excluding taxa
+                    in list L, but never removing taxa in U.
+    List of trees may be preceded by:
+          =C    maximum number of taxa to cut at a time (default=all)
+          :K    assign a cost of K (0-100) to taxon remotion (higher
+                K's require more nodes gained for a taxon removal to
+                be accepted as "improvement"; default=0.5)
+          >N    only show prunings which improve N nodes or more
+                (for strict consensus only, not for majority)
+          [N]   improve only node N of consensus (for strict
+                consensus only, not for majority)
+          &     for pruning strict consensus only, when finding that
+                a triplet is present in all trees, try to combine
+                with previously checked triplets to infer resolution
+                of triplets not yet checked.  Faster for larger numbers
+                of trees, differing in fewer taxa
+    and if followed by ">N", all the prunes are added to taxon-group
+    number N (note that this option requires an explicit tree list, for
+    otherwise it would be interpreted as the option to only show prunings
+    which improve N nodes; see above).
+    The consensus types can be indicated in parentheses, also before
+    tree-list:
+      (majority F)  heuristically try to improve majority rule tree,
+                    considering that triplets occurring in frequency F
+                    or higher are "compatible" (50<=F<=100, default=50)
+       (nelsen)     improve strict consensus tree (=default)
+
+PFIJO
+    Run pinon fijo (a search algorithm useful for very large data sets).
+    The algorithm creates reduced data sets from sectors in the tree
+    (but instead of using the htu's, as in sectsch, it uses, with a certain
+    probability, the down-pass states of the descendants of an internal node).
+    The states for the basal node --which produce exact score evaluations for
+    the reduced data set-- have the highest probability of being chosen, and
+    descendant nodes have subsequently smaller probabilities.  The outgroup
+    node for the reduced data set is chosen from one of the terminals outside
+    the group (randomly chosen). The reduced data set is analyzed by means of
+    three RAS+TBR, then fusing these three trees with the original one.
+    Typically, this produces a tree different from the original one, which
+    is suboptimal for the complete data set (i.e. some HTU's are not
+    represented by their down-pass states, the root states are different),
+    and this perturbated tree is then used for TBR and three cycles of
+    mild tree-drifting.  Optionally, the trees produced can be fused every
+    certain number of rounds.  This is a sort of ratchet, where the
+    perturbation is provided, not by character reweighting, but instead
+    by choosing subsets of taxa.
+      The sectors chosen are large, exclusive sectors (size chosen so that
+    it is below or above two sectors for the sector size to be 500; this
+    size can be changed, with "chunksize" --see syntax below); the actual
+    selections depend on the current random seed.
+      The probabbility of choosing HTU states is determined by making an
+    upward list of the L nodes descended from the HTU, generating a random
+    number R (0-99), and based on the user-set constant K, converting into an
+    integer i the expression ( L * (1000 - (10*K) ) / ( (100 - (10*K)) + R ).
+    Then, the down-pass states (or observed states, if a terminal) of the ith
+    element in the list of descendants is chosen to represent the HTU states.
+    Syntax is:
+                 pfijo N = [options] ;
+    If the '=' is replaced by ':', then only settings are changed.
+    N is the tree from which pfijo is to be started (if no N is specified,
+    each of the trees in memory is sequentially subjected to pinon fijo).
+    Options are:
+       phtu K   Change probability of HTU substitution.  K is a real number
+            0<0<100, with larger values making more probable that the actual
+            HTU states are chosen, i.e. lower values perturbate more strongly;
+            (default K=95)
+       numsels N   number of cycles to do (default N=30)
+       [no]goback  if new tree, after global TBR and drift, is worse than
+            starting tree, go back to starting tree (default = don't go back)
+       [no]keepall   save trees as cycles proceed, or save only best trees
+             (default: save)
+       autofuse N R  every N cycles, fuse (R rounds) the trees produced.
+       drift N F R  after perturbation, do N cycles of drifting, with a fit
+             difference F, and a relative fit difference R (default is
+             drift 3 3 0.1)
+       chunksize N  select sectors of approximmate size N
+       slack N  use an extra N percent memory to create reduced data sets
+
+PIWE
+      -    set implied weighting off (=default )
+      =N;  set it on, with weighting constant N (0 < N <= 1000)
+      :N   set weighting constant only
+      [    followed by a list of weights, sets relative weights for
+           implied weighting (starting from 0 extra steps). Followed
+           by a semicolon, displays current relative implied weights
+      ];   deactivates user-defined implied weights
+      +N   use auto-weighted optimization instead of implied weights, with
+           weighting constant N.  This does implied weighting at the level
+           of character-state transformations; it can be very time-consuming
+           for data sets with many taxa and/or states.  General options
+           and parameters for auto-weighting are set with the "slfwt"
+           command.
+       &   when using multiple concavities, show k values for individual
+           characters (if not using a user-defined weighting function),
+           or the "shift" (for a character with shift S, the cost of adding
+           one step to N steps of homoplasy is the same as the cost of adding
+           a step to a character with S.N steps with the user-defined weighting
+           function.  If a list L of characters is given after after "&, then
+           the relative cost of adding a step to a different numbers of extra
+           steps (as in "piwe[;"), for the characters in L.
+
+PRUNCOM
+    Find pruned combinable component consensus.  Syntax as in
+    "prunnelsen" --options + and ! not allowed.
+
+PRUNMAJOR
+    Use a quick-and-dirty heuristic to identify taxa to prune
+    in order to improve majority rule or frequency difference
+    trees.  It checks by reference to specific groups (i.e. groups
+    present in a reference tree).  General syntax is (defaults in
+    square brackets):
+                prunmaj T N1 N2 N3 .. Nn / S / L \ U ;
+    where T is number of reference tree [mandatory], N1-Nn are node numbers
+    [all], S is the set of trees to consider [all], L is the list of taxa
+    to exclude [none], and U is the list of taxa that cannot be excluded
+    from the tree (=Untouchable).
+    Additional arguments that can precede number of reference tree:
+       &P      group proportion [0.333].  Set only, don't run.
+       [X Y    cost of removal inside (X) and outside (Y) [1,1]. Set only,
+               don't run.
+       +       show pruns for each node of tree T [don't].
+       =N      show the best N values [1].
+       *       try to improve frequency differences, rather than
+               just frequencies.
+    It is possible to add/remove taxa from taxon-groups, as final
+    arguments:
+        >G      add taxa with best N values to group G.
+        <G      ditto, removing.
+    The values are presented with an arbitrary rescaling between 0 and
+    1, with taxa having higher scores expected (recall this is a heuristic!)
+    to improve results the most.
+
+PRUNNELSEN
+    =P N/L Show pruned trees with up to P taxa pruned (default=1)
+           for consensus of tree(s) N, excluding taxon (taxa) L.
+           Checks whether additional groups appear.  If you wish to
+           force inclusion of some taxa (terminals only), list them
+           at the end as "\L".
+    >N     show only prunings that improve more than N nodes
+    [J]    same, but only for node J of consensus
+    &      show list of prunings that improve consensus
+    *      store prunings that improve consensus (pruned
+           taxa are placed at the base of the tree)
+
+    Using ">G" (or "<G") after the taxon list, then the taxa
+    pruned are added to (or removed from) taxon group G.
+
+    The following two options calculate agreement subtrees:
+
+    +      calculate agreement subtree exactly (cannot be used
+           with =, [N], or >, but can be used together with *
+           or &).  Agreement subtrees maximize number of shared
+           taxa, not number of shared groups.
+    !      approximate calculation of agreement subtree (for
+           binary input trees only). If used alone quickest,
+           if used with + intermediate. Saves or lists a single
+           tree.
+
+PRUNTAX
+    N/L   prunes taxon (taxa) L from tree(s) N.  If symbol
+          "!" is used as taxon list, it prunes all inactive
+          taxa.  If "*" is used instead of tree list, then it
+          prunes taxa from tag-tree; using "=xxx;" instead of
+          taxon list, then it prunes all terminal branches labeled
+          as "xxx".
+
+PRUPDN
+    Try combinations of pruns, for taxa specified in a group, to improve
+    majority rule or frequency differences, and place the best set(s) in
+    an output taxon group.  It uses an optimality value to evaluate pruns,
+    consisting of E = ( Sum(v) + P ) / ( T - 2 ), where Sum(v) sum of
+    support values across all branches of pruned tree, P = penalty for
+    prunes, T = number of taxa with least possible prunings.  P is defined
+    as R * 100 * ( 1 - F^2), where R = number of taxa pruned, and F = factor
+    to penalize removal (larger values, stronger penalty; default is 0.5).
+    It can work "down" or "up" (hence the name of the command); down
+    starts with no prunings and tries combinations of prunes to improve
+    E (moving taxa pruned in one stage to the output taxon group), and up
+    starts will all taxa pruned, finding the best combination of taxa to
+    unprune at each stage.  At every stage, it tries combinations of up
+    to M taxa to prune or un-prune.
+      This command is useful to take taxon groups resulting from more
+    heuristic commands (e.g. "chkmoves", "prunmajor", "pcrprune", or
+    "prunnelsen") and refine the prunes with a more exhaustive and
+    optimality-based evaluation.
+    Usage:
+           prupdn G1 G2 options L / N
+
+    will take taxa in group G1 (placing result in group G2), for trees in
+    list L, ignoring the position of taxa in list N, with options specified.
+    Options are:
+      [T]   use groups of tree T as reference (default=majority or GC of trees
+            in list L).
+       >    use a "down" pruning (=default)
+       <    use an "up" pruning
+       :F   use F as factor for penalty (0 <= F <= 100) (default = 0.5)
+       *    use frequency differences instead of raw frequencies
+       =M   at every stage, use a maximum of M taxa pruned (or un-pruned);
+            at every stage, the best set of prunes (or un-prunes) is removed
+            from the set of possible prunes (or un-prunes) (default = 3).
+       &N   use N for cutoff (e.g. N=100, improve strict consensus)
+       !N   perform at most N replications (default = 20)
+       |S   use a "separator" value of S.  With this, two taxa separated
+            by nodes with support value S or more, are never pruned in
+            combination (as it is less likely that their joint elimination
+            will improve much the tree); this speeds up calculations but
+            may miss some improvements (legal values are 0<=S<=100).  In
+            the "down", the default is to use separators of 75 (use 0
+            for no separator, i.e., all combinations actually evaluated);
+            in the "up" mode, the default is not to use separators, and
+            they are used only if explicitly indicated.
+
+QCOLLAPSE
+    =   quick pre-collapsing during searches under mulpars (default)
+    -   no quick pre-collapsing
+
+QNELSEN
+    Estimate consensus. Options are: replications N, select N, strictperc N,
+    majorcut N.  Search commands given in square brackets. Taxon exclusion with
+    "/" followed by list of taxa to exclude (from consensus; not from searches)
+    For each search, trees are collapsed according to current criterion. Option
+    "allow" works as in the resample command. When majorcut=100, then
+    the strict consensus for all replications is calculated.
+
+QUOTE
+    copy from input to output until a semicolon is found
+    (if literal quotes is off, start on a new line, otherwise
+    new lines on output reflect new lines on input)
+
+QUIT
+    quit the program
+
+RANDTREES
+    N J K  create N random trees, by adding taxa at each pre-existing
+           branch with same probability, probability J of collapsing
+           the new node, with up to K-furcations (default J = 0 )
+    /      randomize tree order
+    *      randomly resolve non-binary trees
+
+RATCHET
+    Ratchet, from trees in memory.  Options are:
+       iter N           number of iterations
+       [no]equal        periodic rounds with original weights [not]
+       numsubs N        number of replacements (i.e. accepted tree
+                        rearrangements) to do in perturbation phase
+       upfactor N       probability of upweighting a character
+       downfact N       same, for downweighting
+       [no]autoconst N  number of auto-constrained cycles
+       [no]giveup N     percentage of full swap to complete during perturbation
+       findscore N      if score N or better found, stop
+       [no]fuse NxR     every N iterations, do R rounds of fusing to the N
+                        trees
+       [no]dumpfuse     if fusing fails to produce a better tree, [don't]
+                        dump all the suboptimal trees
+       [no]tradrat      [don't] run the original ratchet (i.e. noequal,
+                        during perturbation swap to completion and don't
+                        accept equally good rearrangements).
+    Options are set with "ratchet:[options];" or "ratchet=[options];"
+    (first case changes settings only, second case runs as well). With
+    "ratchet:;" current settings are displayed
+
+RCOMPL
+      B    Identify sequences that seem reverse-complemented in block
+           list B (only DNA blocks are processed; blocks with non-DNA
+           characters are skipped).  The command calculates the edit cost
+           (Needleman-Wunsch) of the sequences as they are (A), and with
+           one of the sequences reverse-complemented (R).  If A < R, then
+           both sequences are considered to point in the same direction
+           [if (R-A)/A < 0.2, then TNT considers that no decision as to
+           direction can be made].  If A > R, then it is assumed that one
+           of the sequences is reverse-complemented [again, only when
+           (A-R)/R > 0.2].  Using ">G" after the list of blocks, all
+           sequences (=taxa) that seem reverse-complemented are added
+           to taxon-group G.
+
+RDIR
+    xxx    set path for "run" files
+
+REBUILD
+    Do a ratchet-like search, with perturbation provided by randomly pruning
+    taxa from current tree, re-inserting sequentially, and swapping with TBR.
+    This command is useful for very poorly structured data sets (e.g. random);
+    similar to the "*" option of the "hybrid" command, looped many times.
+    The number of nodes deleted can be a fixed proportion ("pclip") or an
+    absolute number ("clip"), of terminals or clades of a specified "size".
+    This is done repeatedly (as in the ratchet); optionally, it is possible to
+    use the (best) results of the cycles as input for tree-hybridization (with
+    settings from "tfuse" command).  One of the best trees produced by
+    hybridization is then used to continue the rebuilding.
+    Options (possibly preceded by "no"):
+       clip J-K  at every cycle, clip a number of nodes between J and K. If
+                 this not specified (or 0), then it uses "pclip".
+       pclip N   at every cycle, clip N% of the terminals or nodes.
+       size N    maximum size of clade to clip (default=1). If N > 2, then
+                 (by default, see "ancfirst" option), clades are re-inserted
+                 back before their descendants.  If this set to 0, then it
+                 uses "psize".
+       psize N   maximum size, as proportion (%) of number of taxa.
+       cycles N  do N cycles of rebuilding.
+       reset N+S every N cycles that fail to produce a tree as good as best
+                 tree found so far (plus S, if specified), reset tree to
+                 best tree found so far and continue rebuilding from that one.
+                 Default = "noreset".
+       hybrid N  hybridize, N times, the best S trees produced by rebuilding
+                 (S=sample size, determined with "sample").  Each round of
+                 hybridization will use the results from as many cycles as
+                 specified with "cycles" (defaults N = 6, S = 50).
+       sample N  pass to the hybridizer the best N trees produced by rebuilding
+       ancfirst  If clipping clades of more than 2 terminals, reinsert ancestor
+                 before descendants.  Default = yes.
+       keepall   keep all trees produced by rebuilding, instead of best ones.
+       dump      after hybridization, if too many trees match best score, retai
+                 a small sample (10% of sample size), so that trees from new
+                 cycles of rebuilding can be saved for subsequent hybridization
+                 With "no", hybridization becomes easily stalled by using a
+                 fixed set of near-optimal trees.  Default = yes.
+    Options are set with "rebuild:[options];" or "rebuild=[options];"
+    (first case changes settings only, second case runs as well). With
+    "rebuild:;" current settings are displayed.
+
+RECONS
+    N/L;    most parsimonious reconstructions for character(s) L, tree(s) N
+
+REPORT
+      =         report status of time-consuming operations
+      -         don't (default)
+      +S/R/T;   during searches, record status every S seconds, R replications,
+                or T trees swapped (no record = 0 )
+
+REROOT
+      N   re-root tree(s) N, using current outgroup
+      [N  re-root tree(s) N, using taxonomic outgroup (see "outgroup")
+      *   also re-root tag-tree. The tags for groups which become paraphyletic
+          are assigned to the (now monophyletic) complement group (i.e. tags
+          remain in the same taxon partitions).
+      =P  re-root tree(s) (and tree-tag, if using '*') on point P
+          (if rerooting several trees, and P is an internal node,
+          this may imply different rootings for different trees).
+
+RESAMPLE
+    Resample matrix, and calculate group supports.
+    Usage: "resample options [ search commands ];"  Options are:
+       jak             use normal jacknifing (i.e. independent deletion)
+       sym             use symmetric resampling, with p(up)=p(del)
+       boot            use normal bootstrapping
+       poisson         use Poisson-modified bootstrapping
+       probability N   change probability for "jak" or "sym"
+       replications N  number of replications
+       cut N           cutoff frequency or support
+       slope           summarize results with frequency slopes
+       gc              summarize results with frequency differences
+       frequency       summarize results with absolute frequencies
+       from N          calculate support for groups in tree N
+       savetrees       save consensus for each replication
+       allow           during each replication, allow execution of
+                       (almost) all commands, including dangerous ones.
+                       This option should be used sparingly and only when
+                       you really know what you're doing!
+       zerowt          if doing symmetric resampling, eliminated (give
+                       weight 0) to downweighted characters (=default);
+                       otherwise, divide their weight by 2 (uncontra-
+                       dicted groups appear in all replicates)
+       sibyl           perform a backwards-jacknife; if used, this
+                       must precede all other arguments. See below
+                       for details.
+       errcount N      valid only under sibyl.  This counts the
+                       proportion of groups (out of the total
+                       supported groups) in the reduced data set
+                       that are not supported in the complete data
+                       set (wrong groups) and the proportion of groups
+                       (out of the total) in reference tree N (presu-
+                       mably, consensus of optimal trees for the
+                       complete data set) that are not supported by
+                       the reduced data set (mist groups).
+    Taxa can be excluded from consensus calculations, using "/" followed
+    by the list of taxa to exclude.  All options are persistent, except
+    taxon exclusion and "from"
+
+       The backwards jacknife is not a measure of support, but provides
+    instead a sort of stability test. It deletes characters (under
+    independent character removal, with p(del)=0.33); for each case,
+    runs the data (as indicated within square brackets) and count the
+    number of groups supported by the reduced data set that are present
+    in all previously existing trees ("supported") or present in some
+    but not all existing trees ("compatible").  Divide that number by
+    the total number of groups supported in the reduced data set, or by
+    the total number of groups that _could_ be supported in the reduced
+    data set (i.e. nr. of taxa-2 , "normalized"). The existing trees must
+    be provided by the user, and should correspond to a set of optimal
+    trees under current settings. Other than search commands, only the
+    number of replications can be changed, and taxa can be disregarded.
+
+RESOLS
+    N/L;   show resolutions of polytomies in consensus of tree(s) N,
+           excluding taxon (taxa) L
+    [J]    same, only for node J of consensus
+    &      list resolutions
+    If a single node is specified, then adding ">G" (or "<G") after
+    list L, will add to (or remove from) groups starting at G the trees
+    for each of the resolutions.
+
+RFREQS
+    [T] N/L  show frequency of approximmate recovery of groups
+             from reference tree T, in tree(s) N, excluding taxon
+             (taxa) L. For each group of T and each tree, it calculates
+             the "similarity" S to most similar group of tree, with
+             S defined as B/(B+(AxWa)+(RxWr)), where B=number of taxa
+             in both groups, or in neither (whichever is smallest),
+             A=number of taxa added to group, R=number of taxa
+             removed from group (Wa and Wr are weight factors to make
+             removal/addition more costly, set with "prunmaj")
+             If group adds/removes more than a certain proportion of
+             taxa (default is 0.333) then S=0.
+
+RIDDUP
+    ;    deactivate duplicate taxa (according to current
+         character activities) and prune trees
+    *;   same, but leave two identical taxa active and in
+         trees (takes into account zero-length branches)
+    -    reactivate and reinsert duplicate inactive taxa
+    /    reinsert duplicates into tree-tags
+
+RSEED
+      N    set random seed as N ( 0 = time ; default = 1 )
+      +N   increase random seed by N
+      *;   set a new random seed, at random
+      [;   in wagner trees, randomize insertion sequence
+      ];   in wagner trees, try insertions for new taxa from
+           top to bottom or from bottom up (=default)
+      >    in wagner trees, also randomize outgroup.  This
+           cannot be done when there are constraints or
+           asymmetric Sankoff characters (randomization is
+           skipped). Note that some "xmult" options use
+           internal constraints (and then skip randomization)
+      <    in wagner trees, outgroup is always the first taxon
+           placed in the tree (=default)
+      :N;  in multiple randomizations, instead of making sure
+           that each new seed is different from the ones used
+           before, increase the seed by N.  This may save time
+           in very extensive randomizations (where checking
+           previous seeds takes time).  When N=0, checks previous
+           seeds (this the default).
+      !    use quick approximation for randomization (faster)
+      -    use careful randomizations (slower, more random; default)
+
+RUN
+    xxx arg1 arg2 ... argN;
+          parses file xxx, replacing %i by arg i
+          (max. args. = 32, arg 0 is file name)
+
+RUNC
+    Run a C-script (allowing calls to TNT and access to TNT internal
+    variables). This uses the C-interpreter from "PicoC":
+       (c) 2009-2011  Zik Saleeba, https://gitlab.com/zsaleeba/picoc
+       (c) 2015 Joseph Poirier https://github.com/jpoirier/picoc
+    A lot of added functionality concerns specifics of phylogeny and
+    connection with TNT.  The work for this was done in collaboration
+    with Martin E. Morales.
+    Options:
+      filename  run script "filename" (starting from main)
+                If "exit()" used to terminate script (returning
+                control to TNT), exit status is written to
+                variable "exstatus". From "main", "return"
+                goes back to TNT but does not set "exstatus".
+     [N         keep track of up to N simultaneous memory allocations
+                (with "malloc()", "calloc()", "realloc()", or "free()")
+                within script execution, and automatically free all
+                tracked memory when exitting script.  Default N=5000.
+                If N=0, then memory is not tracked and freeing memory
+                is entirely up to user.  Keeping track of allocated memory
+                incurs in a small overhead (memory and time), but makes
+                scripts simpler.
+      +name     list TNT functions matching "name"; if no name provided,
+                list all functions and reserved words
+      =lib      list functions available in library "lib"
+                (if no library given, list available libs),
+                with a description of TNT library functions
+      ! ... !   Read script ("...") from console or TNT input file; end
+                script with a line starting with "!".  No "main()"
+                must be included in script.  This is  useful to test
+                functions or small scripts, or to embed portions of
+                C-code in a TNT instructions file. If reading from console,
+                note that execution begins only once the full script is
+                read (i.e. after reaching the ending "!")
+    All libraries are included automatically, so there is no need to use
+    any "#include" directives for standard libraries in scripts.
+
+SAVE
+    save trees to file (previously opened with "tsave")
+    N    save tree(s) N.
+    /    save last tree in memory
+    *    save tree-tags in parenthetical notation
+         (tree-file must be parenthetical)
+    -    save trees numbering only active taxa
+         (in combination with xread-, saves reduced
+          trees).
+
+SCREEN
+    NxL   use screen of N lines and L rows
+
+SCORES
+    N   calculate tree-scores (length or fit), for tree(s) N
+    !N  same, optimizing polytomies as "soft"
+
+SECTSCH
+    Do sectorial-search, starting from pre-existing trees. Options are:
+    For determining choice of sectors:
+      rss          do random sector selections
+      css          do constraint-based selections
+      [no]xss N+R  do N exclusive (i.e. non-overlapping) sector selections,
+                   covering all tree, and analyze each; repeat process R
+                   times or rounds (after the last one, do global TBR).
+                   If R is followed by -G, then global TBR is done every
+                   G rounds (and after last one).  Using B-E instead of N
+                   division starts at B and ends at E (increasing or
+                   decreasing, depending on whether E>B or B>E)
+      dss N D      select nodes around node N, up to D (=diameter) branches
+                   away from N, and analyze sector.  This requires specificatio
+                   of a tree; it never swaps at the end (as in noglobal)
+      [no]xeven    for exclusive sectors, [don't] use sectors of as even
+                   a size as possible (uneven sectors make it more likely
+                   to find better trees if using several rounds
+      minsize N    minimum size for random selections
+      maxsize N    maximum size for random selections
+      minfork N    minimum fork for constraint-based selections
+      maxfork N    maximum fork for constraint-based selections
+      increase N   factor to increase size if enough selections of current
+                   size completed. New size is S = S + ( ( S * N ) / 100 )
+      selfact N    factor to determine (under random selections) maximum number
+                   of selections of size S, for T (active) taxa.  Maximum
+                   number, M, is determined as M = ( T * 100 ) / ( N * S ).
+                   Alternatively, using "selfact = X Y Z" uses X for the
+                   first selection, Y for the second, and so on (up to 30
+                   values can be defined)
+      moveon N     if N selections fail to produce a better score, move on
+      rounds N     for constraint-based selections, cycle N times over groups
+    For determining analysis:
+      global N     for smaller selections, do global TBR every N replacements
+      dglobal N    same, for larger selections (i.e. under drift and combined)
+      noglobal     never swap globally.
+      [no]equals   accept equally good subtrees
+      [no]fuse N   when analyzing small sector (below drift size), keep
+                   all trees and fuse (N rounds).  Note: for sectors above
+                   drift size, the autofuse option of drift applies.
+      godrift N    sector size above which tree-drifting (not RAS+TBR) is used
+      drift N      for drifted sectors, use N cycles of drift
+      gocomb N     for sector of size N or more, use combined analyses
+                   (RAS+drift+fuse).  If N is smaller than the size to
+                   use drift, drift is not done.  Number C of drift cycles
+                   for each start is determined with drift C, number F of
+                   fuses is determined with fuse F.
+      starts N     for sectors below minsize, number of randaddseqs plus TBR
+      combstarts N for sectors above size for combined analyses, use N starts
+                   (if first N yield same score, stop, else do N more starts)
+      findscore N  stop drifting on tree if score N found
+      [no]keepall  keep only the best trees [don't]
+    General options:
+      [no]safesank for sankoff characters, use strict checking (=default)
+                   to identify uninformative characters for reduced data set
+                   (looser checking may produce small speedups, but may miss
+                   better trees for complex transformation costs).
+      slack N      make N percent extra memory for searches (prevents
+                   memory errors during runs
+      [no]xbuf     if memory is available, use independent matrix-buffer
+                   for analysis of sectors (=faster updates, significant
+                   time saved for small sectors in large data sets).
+      recurse N    allow sectorial searches to recurse up to N levels
+      tree N       select sectors for tree N (instead of all trees)
+      track        allow tracking nodes between big tree and reduced
+                   tree (valid only for sectorial searches with user
+                   instructions).  This is to be used in combination
+                   with macro expressions "nodtosect", "biginsect"
+      chkroot      for XSS searches only, make sure the base of tree (which
+                   often may be unselected) is included as well; this may
+                   actually use one more selection than requested.
+                   and "bignotsect".
+    Options are set with "sectsch:options;" or "sectsch=options;" (using
+    ":" only settings are changed; "=" runs as well). With "sect:;"
+    current settings are displayed.
+       It is also possible to determine specifically how to search for
+    each sector generated, including the commands to search within square
+    brackets (including sectsch itself, possibly with user instructions as well
+    Maximum level of recursion has to be determined with "sectsch: recurse N;"
+    before reading data set.  When using user instructions for each sector,
+    any settings changed for analyzing a subproblem will remain changed after
+    concluding analysis of the sector (the only exception to this is settings
+    for sectsch itself).
+
+SHORTREAD
+    xxx     read trees (compact) from file xxx
+    =N xxx  same, but place them in group N
+    >N xxx  same, but add them to group N
+
+SHPCOMP
+    Comparisons of tree-shapes, between two trees.  It re-labels taxa in
+    one of the trees, so as to maximize the tree similarity without changing
+    tree-shape. The re-labeling algorithm is a heuristic, so repeating
+    this with  different random seeds may produce different results.
+    It works well for trees with up to 50-60 taxa, it starts to fail
+    (producing suboptimal re-labelings) for larger problems.
+       Please note!  This command is experimental and not very efficient; it
+    may be replaced in the future by better algorithms. It is intended only as
+    a proof-of-concept implementation.
+    Options:
+       X Y xJ K L   relabel tree(s) X and Y, with J starting points, of K
+                    cycles and L rounds each.  It tries to optimize the sum of
+                    steps of the MRP of each tree mapped onto the other.
+       +X Y xJ K L  same as above, but trying to optimize Robinson-Foulds
+                    distance
+       =            save the labeling that optimizes MRP or RF (i.e. change
+                    the trees).
+       X *N         randomly switch labels between two taxa in tree X, N times
+
+SILENT
+    Control output to xxx:
+       =xxx;    no output to xxx.
+       -xxx;    output to xxx.
+    "xxx" can be "all," "file," "console," or "buffer."
+
+SLFWT
+    Set parameters for auto-weighted optimizations (defaults in
+    square brackets):
+        exops N        for characters with more than N states,
+                       pre-check transformations and forbid those
+                       not occurying under a lineal optimization. [5]
+        timeout N      use no more than N seconds to calculate
+                       optimization for any given character. [3600]
+        tolerance N    accept reconstructions that differ from
+                       optimal in N units of score. [0.0000001]
+        [no]polymorph  during optimization, [don't] consider polymorphic
+                       taxa as having a missing entry (=faster). [don't]
+        errmargin N    during searches, re-check trees that are within
+                       N units of fit above best score. [0.5]
+        [no]autotune N during searches, compare estimated and actual
+                       scores of new trees, updating error margin
+                       With N=1 (=level 1), error margin is changed only
+                       within a given swapping cycle; with N=2, error
+                       margin is retained after swapping [level 1].
+        maxtbr N       during searches using TBR, reroot clipped clade
+                       no more than N nodes away from original rooting
+                       (maxtbr 0 = SPR). [5]
+        setlim N       restrict possible state-sets during optimization
+                       for characters with N states or more. [4]
+        maxdist N M    when restricting possible state sets, use union
+                       of states in branches up to N nodes away above a
+                       node, and M nodes below. [6-3]
+        [no]useminset  when restricting possible state sets, use a set
+                       corresponding to optimization under prior costs
+                       (very fast, very prone to errors. [don't]
+        maxrepeat N    when N successive branches have the same (unique)
+                       state, consider them as fixed. [8]
+        [no]quickrat   under this criterion, producing very few optimal
+                       trees, ratchet and drifting tend to find (and
+                       thus swap) the same tree many times; with this
+                       option, when the tree resulting from the perturbation
+                       phase of ratchet/drifting has the same score as the
+                       best tree(s) found so far, the tree is not swapped
+                       (this is applied only when auto-wt is ON). [yes]
+        backbuf N      back up N pre-existing trees during swapping;
+                       in case a tree is re-found, swapping is interrupted
+                       (prevents cycling due to score miscalculation;
+                       0 is no buffering). [0]
+        [no]verbose    as characters are optimized, report progress.
+
+SMATRIX
+    =N (name) [costs]
+        defines a step-matrix.  Syntax for costs is as in
+        "cost" command.  N must be a number 0-31.  Name is optional.
+    +name N
+        apply step matrix of specified name to character(s) N
+    ;   show defined step matrices
+    *   save them (to read, must set "nstates / num;")
+    &   Produce a Sankoff approximation to inapplicables. Characters
+        named "sub_xxx", are considered as subordinate to one
+        named "sup_xxx" (name of subordinate character may be longer
+        than "xxx", but must start with "xxx" to establish identity).
+        The matrix entries in the "sup_" character (which must consist
+        only of states "present" and "absent") are changed to now
+        have combinations of qualities; transformation costs are changed
+        (so that changes between "present" states cost as much as the
+        differences between the qualities, taking into account costs, if
+        Sankoff, or additivities otherwise). State names for the "sup_"
+        character, as well as transformation costs, are also changed.
+        There are limits to the number of states than can be generated
+        (max. is 32), and the superordinate and subordinate characters
+        must be concordant (e.g. a taxon scored as "absent" or "missing"
+        for the superordinate cannot be scored with anything other than
+        "missing" for a subordinate). Ambiguities in subordinate
+        characters are properly handled. See "usminmax" command for
+        options to handle unobserved combinations of states. Character
+        weights are taken into account; if weight ratios between super/
+        subordinate characters are not exact, this is done by means of
+        appropriate transformation costs instead of weights (note this
+        affects implied weights!). A character that is "sub_" to some
+        other, can in turn be "_sup_" of a third, creating multiple
+        levels of dependence, taken into account when recoding.
+        Example names:
+
+              sup_post_legs absent present
+              sub_post_legs armed unarmed
+              sub_post_legs scaly hairy
+              sub_post_legs_sup_apophysis absent present
+              sub_apophysis spinose aspinose
+
+              Which define the hierarchy:
+
+              post_legs                     absent
+                /     \                    /
+              absent   present -- apophysis
+                         /   \            \
+              scaly,hairy  armed,unarmed    present
+                                                \
+                                             spinose,aspinose
+
+        The hierarchy is automatically incorporated into the costs of
+        main character ("post_legs"). The costs are set so that
+        independent transformations into the recoded "state" cost
+        as much as the number of similarities that are not then
+        accounted for by homology; this is what produces results
+        closests to those of "anagallis". In the case of multiple
+        levels of dependence, this means that some gains in the main
+        character cost more than others --in the example above,
+        gaining "post_legs" that have an apophysis will cost 5
+        steps; gaining them without an apophysis will cost only
+        4 (as the features of the "apophysis" itself then don't
+        apply). Note that in the case of Sankoff/additive dependent
+        characters the results of the recoding will deviate more
+        strongly from those of maximum homology (i.e. anagallis); the
+        recoding produced is only an approximation. The correspondence
+        is closest when all characters are binary/nonadditive.
+        Keep in mind that the combined character cannot exceed 32 states
+        (exceeding the 32 states triggers an error message). In that
+        case, either combine fewer characters, or try programs
+        with algorithms specifically designed to handle inapplicables
+        (such as De Laet's program "anagallis", or Brazeau's "Morphy"
+        (found at www.anagallis.be/anagallis, www.morphyproject.org).
+    &+  like previous one, but calculate minimum possible number of
+        steps with a search, instead of sum of minima for the
+        individual characters (achievable only if there is no conflict
+        between the dependent characters themselves!).
+    &<  like previous one, but if dependent additive characters present,
+        instead of treating them similarly to anagallis (=default), set
+        gain cost as the minimum possible to preserve triangle inequality
+    |   if  subordinate and superordinate characters have been modified
+        with "&", set matrix (and costs) back to original.
+    <   ban unobserved states from begin considered at ancestral nodes
+        (by giving transformations to/from them a cost of 1000, presumably
+        "impossible").
+
+SORT
+            sort tree(s) in RAM, from best to worst
+    =nodes  instead of sorting by score, sort by number of nodes
+    =size   sort by number of taxa
+    =mono   sort by number of violated constraints
+
+SPRDIFF
+    J K NxS  estimate number of SPR-swaps required to convert tree
+             J into tree K.  The method used is heuristic, depending
+             on random seed.  It does N replications, and reports
+             best estimation (if no N specified, then N=10); each of
+             the replications uses a "stratification" of up to S
+             levels (default S=0). Depending on the tree topologies,
+             the stratified procedure (more time-consuming) produces
+             better estimations. Using N+S instead of NxS, stratified
+             and regular procedures are alternated (keeping the best
+             overall values at the end).  If one (or both) of the
+             trees have polytomies, then the distance is calculated
+             (by default, see below) between the closest dichotomous
+             resolution(s). The "similarity" is number of moves
+             divided by number of taxa - 3 (i.e. max. possible moves).
+    *J K NxS estimate SPR-swaps and show moves on tree diagrams
+    [K;      count moves as weighted, with a move to D nodes away
+             costing D/(K+D).  As K decreases, approaching 0, all
+             moves cost the same; as K gets larger, longer moves are
+             more costly.  For reporting values, they're rescaled so
+             that the farthest possible move (nt-3) has a cost of 1.
+             Note that "[K;" only sets the value and type of compa-
+             risons to do in subsequent calls to "sprdiff" (or calls
+             to relevant macro expressions), without running.
+             Similarity is also obtained by dividing from number of
+             taxa minus 3 (i.e. max. possible number of farthest
+             possible moves, each of cost 1). The distance D of a
+             move equals degree of the polytmoy created when consen-
+             sing the trees before and after the move, minus 2.
+    ];       in subsequent calls to "sprdiff", count raw moves.
+    It is also possible to search for SPR paths such that no move
+    has a node connecting to one of its ancestors (if the SPR path
+    is to be interpreted as indicating horizontal gene transfer,
+    such moves constitute a physical impossibility). For this, use
+    ": noviol;" as argument ("viol" would allow such moves).
+    If you wish to count the moves needed to resolved/collapse
+    the polytomies of the tree(s), if any, then use ": poly;"
+    (keep in mind that this count is approximate!); default is
+    ": nopoly;".
+
+SUBOPT
+    NxR   set suboptimal to N, relative suboptimal to R (note: relative
+          suboptimal is measured against tree being swapped, not against
+          best tree(s) found).  Values of suboptimal used for subsequent
+          searches, or when collapsing trees with SPR or TBR.
+    :T/P  same as in "bsupport".
+
+SVTXT
+    J K  save text-buffer lines J to K to output file (default = all)
+
+SYSTEM
+    xxx<enter>  run xxx in system
+
+TABLES
+    =   use optional table format
+    -   use default table format
+    /N  use N significant digits for floating point values (default=2)
+
+TAXCODE
+    -N;   de-activate taxon with number/name N (no N: show inactive taxa)
+    +N;   activate (no N: show active taxa)
+
+TAXLABELS
+    N      report name of taxon N
+    xxx    report number of taxon named xxx
+
+TAXONOMY
+    Handle taxonomy contained in the taxon names, in GB->TNT format
+    (i.e. symbol "@" followed by the categories, separated by under-
+    scores).
+      =     for subsequently read data sets, incorporate taxonomy
+      -     don't [ =default, uses less RAM ]
+      ;     if taxonomy has been incorporated, display it as a tree
+      /     display taxonomy as an indented list
+      ]     contract taxonomy, eliminating redundant categories
+      +     store taxonomic tree as last tree in RAM
+      *T    label branches of tree(s) T which correspond to a taxonomic
+            group; extraneous taxa added to the group are indicated
+            as "+", taxa excluded as "-".  The criterion for
+            choosing closest group in tree (if any) is determined as
+            for "prunmajor" and "rfreqs" commands.  The tree list can
+            be followed by a list of categories, in the following format:
+                /L X-idae Z-idae
+                    processes X-idae and Z-idae (with L levels within)
+                    If L is followed by ">N", only subgroups of size N
+                    or more are further subdivided
+                \L B-morphae
+                    processes the subdivisions of B-morphae, up to L levels
+                    below B-morphae.  If L is followed by ">N", only groups
+                    of size N or more are further subdivided
+                =xxx
+                    processes all the taxonomy categories containing "xxx";
+                    if you want to make sure that "xxx" occurs at the end
+                    of the category, add an underscore (i.e. "xxx_").
+            The options "/", "\", and "=" can be combined.
+            If you prefer the stats to not be output for monophyletic groups,
+            use "**" instead.
+      &T    as previous one, but results are output as a list.  The tree list
+            may be optionally followed by a list of the categories to report
+            (default=all; note categories are referred to by name, not number,
+            since numbering is only internal to TNT; the numbering follows
+            that on the taxonomic tree).  The command may end with "> A S",
+            where A and S are numbers of taxon-groups where to place taxa
+            added to the group, or subtracted from the group respectively, that
+            need to be removed to make the group monophyletic. Note that if the
+            symbol "&" is immediately followed by "?", then TNT asks
+            confirmation before placing taxa in groups.
+      !T    outputs a list, as previous one, but also adds a verbose descriptio
+            of the exceptions to taxonomic groups.  This can be done for a sing
+            tree, and cannot save to groups the taxa added/subtracted for each
+            group.  Using a double "!" also reports the positions of members
+            of groups not found in the tree (may be more space-consuming!).
+      |     similar to previous one, but only reports best/worst cases (instead
+            of reporting tree-by-tree stats), and output list is indented.
+      <T    shrinks the groups specified as in previous one (a single tree must
+            specified in this case)
+      :T    color tree-branches for specified groups, on tree(s) T
+            For each tree colored, the colors are stored in tree-tags, which
+            can be saved in SVG format with "ttag & filename colors"
+            Each group to color can be given as:
+                /X-idae Z-idae  /A-idae  /B-morphae
+                    colors X-idae and Z-idae as state 0, A-idae as 1, and so on
+                    (the option to include a number of sublevels is ignored her
+                     you must use "\" instead)
+                \L B-morphae
+                    colors the subdivisions of B-morphae, up to L levels below
+                    B-morphae, each with a different color.  If L is followed b
+                    ">N", only groups of size N or more are further subdivided
+                =xxx
+                    colors all the taxonomy categories containing "xxx",
+                    each with a different color
+            The options "/", "\", and "=" can also be combined.
+
+TAXNAME
+      =          when referring to terminal nodes, use names
+      -          don't (=default)
+      /XXX N     rename taxa N as XXX (if XXX is *, rename at random;
+                 if XXX is > or <, switches name to upper or lower
+                 case, respectively). If XXX is -, it "denames" taxa
+                 in list N (i.e. makes their name a blank space) --this
+                 can be used to plot trees with no taxon names.
+      +N         allow taxon names of length N
+      [N         on output, truncate taxon names to N letters.  Use "!" to
+                 truncate to species only (i.e. to "@" or cuadruple-underscore)
+      ]          don't
+      :T =G      re-locate list of taxa T in taxonomic group G.  This changes t
+                 names and re-processses taxonomy.  Optionally, group G may be
+                 followed by "+ _Supergroup_Group_Subgroup" --case in which
+                 the specified categories are added to the newly located taxa;
+                 or it may followed by "=C" or ">C", case in which all
+                 categories beyond "C" in the relocated taxa are preserved
+                 (exclusive, or inclusive, respectively).  The latter amounts
+                 to transferring an entire group (with its sub-classification)
+                 to a different higher group.
+
+TCHOOSE
+    N   select tree N (use scopes, + and -)
+    /   select last memory tree, discard the rest
+
+TCOMP
+    M N/L     show groups in tree M absent from N, excluding taxon (taxa) L
+    *M N/L    same, keeping tree as last memory tree
+    [         show only compatible groups
+    ]         show only contradictory groups
+    =N/M/L    calculate RI resulting from mapping the MRP of each tree
+              in set N onto each tree of set M, excluding taxon (taxa) L.
+              Note this is NOT equivalent to =M/N/L (RI is asymmetric).
+    ==N/M/L   like previous one, but make G and M (maximum and minimum
+              steps) the sum of both MRPs, and S the sum of steps of each
+              MRP mapped onto the other tree.  This IS symmetric.
+    <N/M/L    calculate Robinson-Foulds distances from each tree
+              in set N to each tree of set M, ignoring taxon (taxa) L.
+              Using ">" instead of "<", it does a "rooted" distance.
+              For trees with T taxa, this is normalized by 2x(T-3) for
+              unrooted, and 2x(T-2) for rooted.  To normalize by number of
+              groups actually present (i.e. so that distance between a bush
+              and a binary tree is 1, not 0.5), use a double ">" or "<".
+    :N/M/L    calculate tree-distances, similar to Robinson-Foulds
+              distances but using degree of recovery (as in "prunmaj"
+              and "rfreqs") for each group instead of just abs/pres.
+              Settings to calculate degree of recovery set with "prunmaj".
+              Distances are from each tree in set N to each tree in set M,
+              ignoring taxa in list L.  This is a symmetric measure.
+              This is always normalized by groups present in the trees.
+    &M N/L    plot tree N, showing for each group the equivalent group in
+              tree M (if none, "X").
+    ! T/L     report PCR values (Pol & Escapa, 2009) for tree(s) T, taxa L.
+              if "=N" precedes list of taxa, then it reports worst N
+              values.  Using ">G" at the end, it puts listed taxa in
+              taxon-group G.
+    !! T/L    similar to previous, but instead of PC it reports Thorley
+              and Wilkinson's LSI stability index (average difference
+              between first and second most frequent resolution of the
+              triplet, for all triplets containing each taxon).
+    &         only after "!": when finding that a triplet is present
+              in all trees, try to combine with previously checked
+              triplets to infer resolution of triplets not yet checked
+              Faster for larger numbers of trees, differing in fewer
+              taxa
+    Note that only the first four options (default, *, [, and ]) use
+    temporary collapsing of unsupported groups.
+
+TEQUAL
+    Show duplicate trees
+
+TFUSE
+    /S C T; create a new tree from trees S ("source") and T ("target")
+            inserting clade C of tree S into equivalent position of tree T
+            (clade C must be present in both trees; trees must be complete
+            and binary)
+    N   combine set of trees N, and add resulting trees to existing set of
+        trees.
+    Options (possibly preceded by "no" and defaults in parentheses):
+    For tree-fusing:
+       [no]equals       accept exchanges of equal score (don't)
+       [no]beststart    use best tree to start (use it)
+       [no]choose       choose only those exchanges that improve best score
+                        found so far (don't)
+       [no]repeat       for every individual fuse, re-fuse trees until
+                        no exchanges improve it
+       [no]swap         after exchanging clades, do TBR swap (swap)
+           minfork N    if node is less than an N-polytomy in consensus of
+                        both trees, skip exchanges (3)
+           rounds N     use N rounds (5)
+       [no]keepall      keep all trees found instead of best only (all)
+       [no]xroot N      for each fuse, try N different (random) rootings
+                        (N=0 is the default; it uses only outgroup as root)
+    For tree-hybridization:
+       [no]hybrid N*R/S instead of tree-fusing, use hybridization (as in
+                        "hybrid" command).  Hybridize randomly chosen pairs
+                        of trees, N times, for each round R.  Every round uses
+                        the best S trees from previous round to continue hybri-
+                        dizing.  Defaults: N 1000, R 1, S 50 (S = 0 uses as man
+                        trees as initially input, when doing several rounds.
+                        Works better than fusing for very unstructured data set
+                        (e.g. random).
+       [no]autostop N   if N successive rounds of hybridization fail to improve
+                        score, stop (default = 3).
+       [no]replace      if hybridizing two trees produces a better tree, then
+                        replace source tree(s) with the better tree(s)
+                        (default = yes).
+       [no]clog N       If initial tree set increased to contain N times more
+                        trees than the initial input, retain best 1/N trees
+                        (default = 15).
+    For selecting type of genetic algorithm:
+       [no]picktype N   calculate a score for the expected outcome of fusing;
+                        this score counts the proportion of groups that could
+                        be exchanged between different pairs of trees in the
+                        input trees (when few or no groups can be exchanged,
+                        as is often the case for random data sets, tree-fusing
+                        produces very poor results). If the score so calculated
+                        is above N, use fusing, if below, use hybridization.
+                        The default is "nopicktype"; if "picktype" specified
+                        without a number, it uses the default threshold (1.5)
+                        Large thresholds preferentially choose hybridization,
+                        and viceversa.
+    Options are set with "tfuse:options;" or "tfuse=options;" (using
+    ":" only settings are changed; "=" runs as well). With "tfuse:;"
+    current settings are displayed.
+
+TGROUP
+    Define group(s) of trees
+    Usage:
+         "tgroup =N (xxx) J [K L M] len=X nod=X siz=X mono *R;"
+    places in group number N, optionally named "xxx," the tree(s)
+    subsequently specified with J (tree(s) number J), or in group(s)
+    K and L and M, or having a length, number of resolved nodes, or
+    terminals included, equal to X, or satisfying constraints, or R
+    trees chosen at random.  Symbol = can be replaced by > or < in
+    the case of len, nod, or siz. If the =N is replaced by >N or <N,
+    subsequently specified trees are added or removed from group N.
+    Several =N (or >N or <N) can follow a command; every one takes
+    into account previous ones.  Subsequent to definitions of tree groups,
+    group(s) of trees can be identified within scopes by referring to them
+    enclosing the group number/name in curly braces.  By default, trees
+    read or calculated are placed automatically in groups; this can be
+    toggled with "tgroup/;".  The definition of the last group
+    automatically defined can be changed by substituting the number
+    of group (N) with / (i.e. with =/, >/ or </).To undefine group N,
+    use "tgroup -N;". Saving current groups is done with "tgroup*;".
+    The default maximum number of tree groups (32) can be set to N with
+    "tgroup+N;" (this must be done prior to reading the data). Whether
+    newly read or created trees are automatically added to tree groups is
+    toggled with / (default is on), or set to a specific value with
+    "tgroup [no]auto".
+
+THANKS
+    show acknowledgments
+
+TIMEOUT
+    set timeout for searches (hh:mm:ss)
+
+TNODES
+    N   count nodes in tree(s) N
+
+TPLOT
+    N    show tree(s) N.
+    *N   show tree(s) N in parenthetical notation.
+    /    show only last tree in memory
+    +    draw trees more symmetrically (they're taller!)
+    -    draw trees with default format
+    If + or - are followed by + or - this turns on (+)
+    or off (-) whether second heaviest clade is drawn
+    first in polytomies.
+
+TREAD
+    read tree(s) in parenthetical notation; semicolon ends;
+    '*' separates trees.  Using "=N" (or ">N") as first argument, the
+    trees are placed in (or added to) group N.
+      The tree-definition can be done using taxon names or numbers
+    (if using a name, the first taxon matching the name is used).
+    Alternatively, a string followed by three periods (no spaces in
+    in between) will place in the corresponding location all taxa
+    whose name matches the string provided.  Also, using @T N will
+    place all the taxa that belong to node N of tree T in the corres-
+    ponding location.  Using a + instead of the @, the sub-tree N
+    of tree T is copied (and then this is just one node, so make
+    sure you don't enclose +T N within parentheses, which causes an
+    error).
+
+TSAVE
+            open tree files (with + at the end, append)
+    xxx     open in compact (default) mode
+    *xxx    open in parentethical notation, using taxon names
+            or numbers (see under "taxname")
+    /       close tree file
+    !t xxx  autosave results to file, every t seconds (t can be given
+            as hh:mm:ss).  For maximum safety, results alternatively saved
+            to files xxx-1 and xxx-2 (if power fails when saving, the
+            previous one remains).
+
+TSHRINK
+    Define groups of terminals to shrink tree. Usage: tshrink =N name list ;
+    Replacing N by "+" names next available group of taxa.   Symbols
+    "]" and "[" deactivate/activate subsequently specified shrinks;
+    symbol "-" undefines them.  "Tshrink*" saves subsequently specified
+    tree(s) in parenthetical notation, but shrinking internal nodes.
+    Shrinks may use a lot of memory (specially in large data sets).  If
+    you want memory for shrinks to not be allocated, use "tshrink !;"
+    before reading the data set ("tshrink +" will allocate the memory).
+
+TSIZE
+    N   count number of taxa included in tree(s) N
+
+TTAGS
+    ;       show tree tag(s).
+    |       same, but displaying multiple lines as such in text trees
+    =       store tree tags for subsequent tree printing command(s)
+            (first tree printing command sets the target tree)
+    (       synonym of "="
+    )       stop storing tags (but don't erase them)
+    -       clear all existing tags
+    +N txt  write txt to node N of target tree
+    >XXX    Change title of tree-tags to XXX
+    <N      erase (i.e. reduce to a minimum) tree-tag for node N
+    *N      set tree N as target tree (no labels written). Using
+            "!" instead of "N" the last tree is used
+    /;      save tags in a readable form
+    [       separate tags in new lines, using "\" as separator
+            for each legend (only in graphic trees).  If followed
+            by a number N, then it sets N to be the maximum width
+            of text to be output in multiple lines (0 = no limit,
+            default). If "[" is followed by a, b, c or d, then it
+            sets the position of multiple line tags in graphic
+            trees (i.e. in SVG files), to be 'a'bove, 'b'elow,
+            'c'entered, or 'd'isregarded (height of labels not
+            considered). Default is 'c'.
+    ]       don't separate legends in new lines
+    !       if some multiple lines are empty, wipe'em
+    &xxx    save tree-tags as tree diagram, in SVG (Scalable Vector
+            Graphics, XML) format, to file "xxx".  File name
+            may be followed by:
+               blength N    branch span (width; if using "colors", and
+                            branch lengths indicated with :L, then used
+                            as factor for tree-width).
+               bheight N    branch height
+               thickness N  branch thickness N
+               colors       save as colors.  In this case, the color
+                            is determined by the first digit in the tree-
+                            legend; more than a single digit (or a non-digit)
+                            colors the branch as gray (=ambiguous).  A text
+                            can also be displayed, if the color code is
+                            followed by a forward slash and text.
+               fontsize N   use a font size of N.  Use "tfontsize" or
+                            "bfontsize" to control size of font in terminal
+                            taxa or in tree branches, respectively.
+               italics      ditto, for taxon names (use "bitalics" for branch
+                            legends)
+               pendwidth N  use a font of stroke N (=boldness)
+               txtsep N     if using multi-line legends, separate lines
+                            by N points
+               legup N      raise branch legnds by N points
+               shift N      move whole tree N pixels to the right
+               caption xxx  use xxx as caption for tree diagram (copies until
+                            a semicolon found; last option for "ttag &").
+            The resulting SVG file can be opened with any appropriate program
+            (including most web browsers: Firefox, Opera, Safari, Chrome).
+            Color codes (from 0 to 9) are red, blue, green, cyan, brown, pink
+            orange, purple, magenta, and yellow.  Instead of these color codes,
+            it is also possible to indicate RGB codes (in parentheses, separate
+            by commas, optionally followed by branch thickness:length, before
+            closing the parenthesis). You can use dashed lines, if the first
+            color in the RGB code is preceded by a "-".
+    NB: thanks to Salvador Arias for showing me the SVG format!
+    NB2: If you wish to display a text in a specific color (with 0-9, IUPAC
+         codes for DNA, or RGB codes), then precede the text by a forward
+         slash and precede the slash by the color code.
+
+TVAULT
+    If tree-vault set, place or retrieve trees from the vault
+       >L    place tree(s) in list L in the vault; number of trees
+             in vault increased, tree-group membership preserved.
+             Keep in mind that *name* of group can change or other
+             trees may be added to group (e.g. if subequent tree-creating
+             commands overwrite it); only the number of group, and the.
+             membership of the vaulted trees is saved.  Using '/' instead
+             of L, it saves to vault the last tree in memory.
+       <L    get trees(s) in list L from the vault.  Using '/' instead of
+             L, it retrieves last tree from vault.
+       -     clear all trees from vault
+       *     display trees in vault, in parenthetical notation.
+       !     exchange trees (from standard memory buffer) and user-variables
+             This can be used to store tree(s) in a memory space that does
+             not go away when reading a new dataset, without the need to
+             save trees to disk. Syntax is:
+                 tvault !var > T ;
+             or
+                 tvault !var < T ;
+             first case copies from variable "var" (an array) to tree T
+             second copies from T to "var". If T specified as "/", it
+             copies to/from last tree in memory. If using ">" and no tree
+             specified, adds one tree to tree buffer. It is not recommended
+             that you change the array and then copy to tree buffer, but if
+             you do, keep in mind that a sanity check is done before copying
+             copying from "var" to tree, to make sure that:
+                  a) basal node is numbered as number of taxa
+                     in dataset (=Ntax)
+                  b) terminal taxa numbered from 0 to Ntax-1
+                  c) internal nodes other than root numbered
+                     from Ntax+1 to L (largest node)
+                  d) every internal node is the ancestor of
+                     two or more nodes
+                  e) the ancestor of Ntax equals largest node
+                     in the tree plus one (L+1)
+                  f) a terminal taxon not included in the tree
+                     has ancestor = 0
+             These (plus others) are the same rules followed by TNT to number
+             internal nodes. Node numbers in tree stored in memory may be
+             reset (so that they follow TNT's rules for node numbering,
+             enabling tree handling and comparison)
+    Note: tree-vault is set with "hold N/V" (where N = max. trees, and
+    V = vault size).
+
+TXTSIZE
+    N     set size of display buffer to N Kb
+    ;     report buffer usage
+    =     set buffer to compressed mode (slower viewing; default)
+    -     set buffer to uncompressed mode (faster viewing)
+    /     report approx. amount of disk space needed for text buffer
+
+TZERT
+    X Y  insert groups of tree X onto tree Y
+
+VIEW
+    xxx  view file xxx
+    +    auto-view text-buffer on
+    -    auto-view text-buffer off
+    ;    view text-buffer (text-buffer has all the output).  Arrow keys
+         move buffer.  Pressing ":" followed by a string, the string
+         is searched in the text-buffer (& repeats). Screen size changed
+         with >< or \/.
+    See also txtsize, svtxt.
+
+VVERSION
+    show version
+
+WARN
+    =   issue warnings
+    -   don't (default)
+
+WATCH
+    =   time execution of commands
+    -   don't (default)
+    [  in addition to time, measure RAM (bytes) used by each command
+    ]  don't (default)
+
+XCOMP
+    N    compare steps, character by character, between reference tree and
+         tree(s) N.  Must have defined a tree as reference, with "xcomp =X."
+         If list of trees followed by ">J K" (where J, K are numbers, 0-31),
+         the list of characters with worse fit on reference is placed in
+         character-group J, and the list with better fit in group K. Using
+         "<" instead of ">", it removes characters from groups J, K.
+    *N   same, using fit.  Under auto-weighted optimization, this is the
+         default option.
+
+XGROUP
+    define character group(s).  General syntax is as in "tgroup" (but "nod",
+    "siz", or "mono" not allowed). Options "len", "homo", or "score",
+    followed by a tree number, and a comparison (=, <, >, <=, or >=) add
+    or remove from group all the characters for which the comparison (when
+    the character is optimized onto the tree specified) is true.
+
+    Examples:
+        xgroup >5 len 0 < 10 ;        adds to group 5 characters with 9
+                                      or fewer steps on tree 0
+        xgroup =4 homo 2 (3,5);       places in group 4 the characters with 3
+                                      to 5 steps of homoplasy on tree 2
+
+    The options "min" and "max" are similar, except that no tree is
+    specified in that case.
+
+    For character types, "type=TYPE" (where type is either num, dna, prot,
+    cont, 1d, 2d, 3d, land, add, nonadd, sank, or disc) places in group all the
+    characters of the specified type.
+
+    Option "/" automatically creates a group with each data block, and
+    "xgroup !;" saves only active characters.
+
+XINACT
+    Deactivate all uninformative characters in matrix
+
+XMULT
+    Run multiple replications, using sectorial searches, drifting,  ratchet
+    and fusing combined.  Options are:
+      hits N             produce N hits to best length and stop
+      replications N     for each hit, search initially with N replications
+      [no]targetscore N  search until score N found (only with fusing)
+      [no]update         do not update targetscore
+      [no]giveupscore N  give up search as soon as score N found
+      [no]rss            use random sectorial searches (settings with
+                         sectsch:options)
+      [no]css            use constraint sectorial searches (settings with
+                         sectsch:options)
+      [no]xss            use exclusive sectorial searches (settings with
+                         sectsch:options)
+      [no]fuse           use fusing (settings with tfuse:options)
+      [no]gfuse N        every N hits, fuse all trees (=score check)
+      [no]dumpfuse       if fusing fails to produce trees of target score,
+                         dump the trees produced by fusing (may prevent
+                         "clogging" of subsequent fuses by keeping only the
+                         most distinct trees)
+      [no]rebuild N      use N cycles of rebuilding (other settings with
+                         "rebuild: options;").
+      [no]drift N        use N cycles of drifting (settings with drif:options)
+      [no]ratchet N      use N cycles of ratchet (settings with rat:options)
+      hold N             for ratchet, drifting, or rebuilding, save up to N
+                         trees per initial replication (default = 1).
+      [no]autoconst N    use consensus of previous run and initial stages of
+                         current as constraint for initial stages. 1=previous
+                         and wagner, 2=previous and SPR, 3=previous and TBR.
+                         The first replication of a new hit is never
+                         constrained (i.e. hits are totally independent).
+                         Note that level=2 defaults to 1 when "skipspr"
+                         is on.
+      [no]xmix           after unsuccesful fusing, start a new set of
+                         replications as autoconstrained (otherwise, don't)
+      [no]prvmix         if trees existed in memory before running xmult, use
+                         last one to autoconstrain first xmult replication
+      [no]consense N     consense untill consensus is stabilized N times
+      conbase N          base hits to check for consensus stabilizations
+                         (larger numbers make more reliable estimations)
+      confactor N        factor to increase number of hits to check consensus
+                         stabilization (10-100, larger numbers: more reliable)
+      conmax N           maximum new hits to recheck consensus (default=12)
+      [no]keepall        keep trees from all replications.  This has a differen
+                         meaning when "hits" is 1 (=default) and when "hits" >1
+                         When "hits" = 1, it is trees from each of the RAS + TB
+                         SS or DFT or RAT, in addition to the trees resulting f
+                         fusing those.  When "hits" > 1, then it means the tree
+                         resulting from fusing the initial starting trees for e
+                         of starting points.  Thus, to find N trees, each resul
+                         from S starting points (RAS+TBR+etc) and fusing, use
+                         "xmult = hit N noupdate rep S keepall".
+      [no]retouch N      before trying new replications, repeat sectorial
+                         search and ratchet/drifting
+      level N            set level of search (0-10). Use 0-2 for easy data
+                         sets, 2-5 for medium, above 5 for difficult. If N
+                         followed by a number T, set level for T taxa; otherwis
+                         set level for currently active taxa.
+      chklevel N         check search parameters during run, every N hits.
+                         The parameters are increased or decreased, starting
+                         from user settings.  If N is preceded by +F (between
+                         0 and 2), the entire level is changed by F. If N is
+                         preceded by -, user settings are starting point
+      [no]multiply       after hitting target score, find additional trees by
+                         fusing suboptimal with optimal trees (default = yes).
+      [no]verbose        produce verbose reports
+      [no]hybrid         use hybridization; this can be used jointly with
+                         tree-fusing.  Number of hybridizations, rounds, sample
+                         size, and unsuccesful rounds to stop, are set with
+                         the "tfuse" command.  When combined with "picktype",
+                         a number x F can follow "hybrid" --this is the factor
+                         to multiply the number of replications if "hybrid" is
+                         chosen instead of "fuse".  Fusing normally needs fewer
+                         trees as input (it is for more structured data sets),
+                         when "pick" is used, genetic algorithm is determined a
+                         run time, thus user cant't predict ahead of time which
+                         genetic algorithm will be used.  As example, with "pic
+                         hybrid x4 repl 5", if fusing is picked, then it will u
+                         (initially, at least) 5 replications for fusing; if
+                         hybridization is picked, then it will use 20 replicati
+      [no]picktype N     use either fusing or hybridization, choosing with
+                         threshold N (see under "tfuse"). This uses only one
+                         type of genetic algorithm; if you want both to be used
+                         just set them both.  If using "verbose", then choice i
+                         indicated on screen.
+      [no]hfuse N        every N hits to minimum length, hybridize all resultin
+                         trees as an extra check for optimality.
+      ras,cas,ias,       select type of addition sequence for the Wagner trees
+          sas,fas        not specified, the one last used with "mult" is used).
+    Options are set with "xmult:options;" or "xmult=options;" (using
+    ":" only settings are changed; "=" runs as well). With "xmult:;"
+    current settings are displayed.  If consensing, / followed by a taxon list
+    removes the specified taxa from the consensus (this must follow all the
+    other options).  If css, rss, and xss are specified css is done first,
+    then rss, and xss last.  Rebuilding, ratchet, and drifting (in that order)
+    always follow sectorial searches.  Global hybridization and/or tree-fusing
+    are done last (although they may be done as part of rebuilding, ratchet,
+    or drifting).
+
+XPERM
+    N/L;   permute states within character(s) N, for taxa L
+    -;     undo last permutation
+
+XPIWE
+    Handle options for extended implied weighting
+      -    set extended options OFF
+      =    use extended implied weight (use character sets for constant
+           or "set weighting", and/or different weighting strengths for
+           different characters). Character sets defined with "xpiwe[" are
+           weighted using average homoplasy in the set.  For a set of N
+           characters with total homoplasy H, the score for the set is
+                                    (H/N)
+                              N * ---------
+                                  (H/N) + k
+           Sets defined with "xpiwe/" have constant weight. Note that set
+           weighting is peculiar in making parsimony-uninformative characters
+           relevant to the analysis; for set weighting, when user-defined
+           weighting functions are in effect, TNT needs to extrapolate costs
+           (since it uses average numbers of steps). When combining different
+           weighting strengths in an analysis, the fitting function for all
+           characters is rescaled so that the first extra step (i.e. no
+           homoplasy) costs the same for all characters.
+           NOTE: extended implied weighting is valid only under "piwe=",
+           not "piwe+", and to apply it you must read the data with
+           implied weights turned ON.
+      /    define a set of characters with constant weight.  Usage is:
+           /NxF L, where L is the list of characters for which every step
+           costs the same as F times the cost of adding 1 step to a
+           character with N extra steps (under the "base" concavity,
+           or the user-defined weighting function).
+      [L   define a set of characters (L) for homogeneous "set weighting".
+           If L is (optionally) followed by "=N", then the set L is
+           divided in subsets or "chunks" of N consecutive characters
+           each.  If L is followed instead by "/" and a partition
+           (e.g. in the form "12:3" or "1:2:3") then the first,
+           second, and third positions within list L are grouped. Not
+           specifying 1, 2 or 3 leaves those positions outside the subset(s).
+           NOTE: when user-weighting function are in effect, weighting-sets
+           require calculating fit for fractional (i.e. non-discrete)
+           numbers of extra-steps; this is done by interpolating (on
+           the fitting function assembled from the user-defined cost
+           function) using the same interpolator of the macro expression
+           "intpol".
+      ]    like previous one, but it does all data blocks automatically
+           (e.g. "xpiwe]/12:3;" creates a set for 1st and 2nd position,
+           and another with 3d, for each of the data blocks, while
+           "xpiwe]=10;" divides each of the data blocks in chunks of
+           10 characters each)
+      *    write to log file the list of characters in weighting sets,
+           and the list of characters with fixed weights, in a format
+           readable by TNT
+      &L   report status of weighting sets for tree(s) in list L.  If list
+           preceded by strings "steps", "score", "homoplasy", or
+           "size", then it reports the corresponding value (default is
+           "size").  Under different concavities, you can also report
+           the concavity values of each set ("kvalue") or cost of adding
+           a step to an average character in the set ("cost")
+      !L   remove characters in list L from weighting sets and from the set of
+           characters with fixed weight.
+      (    handle implied weighting with different concavities for different
+           characters. The symbol "(" can be followed either by "*" or by
+           a list L of characters.  The "*" (see below) determines different
+           weighting strengths based on numbers of missing entries; with a
+           list L, the user defines the concavity for the characters
+           specified in L.  N.B.: the values of concavities (or the cost
+           of adding steps for the different characters) are shown by the
+           "piwe&" command, not by this one.
+           (* Option:
+              This option is intended to address the problem that characters
+              with many missing entries cannot have much homplasy, and thus
+              normally have high implied weights during analyses. With
+              "( *P <M /K", missing entries are assumed to have (for the
+              purpose of calculating fit differences) a proportion P of the
+              homoplasy which occurs in observed entries .  Thus, if P is 1
+              and half the cells in a character are missing entries, the cost
+              of adding a step to a character with H extra steps is (approxi-
+              mmately) the same as the cost of adding a step to a character
+              with 2H steps. If no P is specified, the default (0.5) is
+              used.  When reading the matrix, inapplicables (which should
+              not increase the counts of missing entries!) can be indicated
+              with the symbol "*" (=set of all states but the largest).
+              The approximmation used with the default weighting function
+              function is based on using different K values, given that for
+              the standard weighting function, the cost of adding a step to
+              a character with N extra steps, under K1, is approximmately the
+              same as adding a step to a character with N.K1/K2 extra steps
+              under concavity K2.  Thus, characters with more missing entries
+              get lower K values (i.e. they decrease their influence more
+              quickly as homoplasy increases, but are equally influential in
+              the absence of homoplasy).  M determines the maximum acceptable
+              ratio between K1/K2 (1<=M). If no M is specified, the default
+              (5) is used.  The value K determines the "base" concavity (i.e.
+              the concavity for a character with no missing entries); if "/K"
+              not included, general concavity is used.  Note that P=0 or M=1
+              are equivalent to standard implied weighting.  If weighting sets
+              have been defined (with the "xpiwe[" or "xpiwe]" options), TNT
+              will honor those sets (extrapolating from the average homoplasy
+              in the observed entries to the total missing entries in the set).
+                 When a user-defined weighting function is in effect, then the
+              K values are used as factors for extrapolation to missing entries
+              (a character with concavity K, under general concavity G, is
+              considered to have G/K times the homoplasy observed in the
+              non-missing entries).  Remember, this means that the cost of
+              adding a step to a character with S steps is the same as the cost
+              of adding a step to a character with G/K times the observed
+              homoplasy, not G/K times the step cost!  The interpolator uses
+              the cost function defined by the user (not the fit function
+              assembled from it; note that the two options might produce
+              slightly different results).
+           (L Option:
+              with "(L /K", all the characters in list L get concavity K.
+              Initial concavities can be set with the previous option, and
+              then modified with this one (case in which TNT will honor the
+              last set of concavity values determined by the user). Keep in
+              mind that if weighting sets have been defined, all the
+              characters in a set must have the same concavity!  When user-
+              defined weighting functions are in effect, k is used (as in the
+              previous option) as a factor to extrapolate.
+      )    use a single concavity (or user-defined weighting function) for
+           all characters.
+
+XREAD
+    Read data; Hennig86/NONA format. Interleaved: each block preceded by "&"
+    and block options within square brackets.  Block options are:
+       continuous     continuous
+       dna            DNA data
+       proteins       aminoacid data
+       numeric        alphanumeric data
+       landmark 2D,3D read two- or three-dimensional data (landmark coords.)
+                      Each "character" can consist of several points; use
+                      "|" to separate characters, and ? for missing.
+       gaps/nogaps    read gaps as fifth state / missing
+       trimhead       if data are DNA or AA, and gap is fifth state,
+                      make all leading gaps missing entries
+       trimtail       likewise, for trailing gaps
+       match N        consider names of similarity N, as the same
+                      the same taxon (with 1 identical)
+       verbose        give stats for each block
+       /blockname     name block as "blockname".  Subsequently naming
+                      blocks with cnames command overrides these names.
+    Editing data:
+         =C T S  set states for taxon T, character C, to set S.
+                 If C and/or T is within square brackets, then C and/or
+                 T can be lists of characters/taxa. If C is a landmark
+                 character (=config.), then C must be followed by the
+                 number of landmark to set (first landmark in the
+                 config = 0), and S given as two or three comma-separated
+                 values (depending on whether config. is 2D or 3D).
+         =!C T S same, but do not re-check minima-maxima (saves
+                 time, but unless "xread ==;" is used, subsequent
+                 optimizations may be wrong.  Use with caution!)
+         ==      check informativeness for all characters (=undoes
+                 possible side-effects of previous one).
+    Saving data:
+         *       all chars.  (followed by "*" also saves char. settings)
+         -       only active  (followed by "*" also saves char. settings)
+                 In the case of landmarks, it does not save landmarks with
+                 zero weight.
+         [       only active, randomizing order of characters (=mangling)
+                 Not valid for landmark characters.
+         !T/C    save only taxon names and chars. (no xread, no ccode),
+                 for taxon list T, character list C (default=all).
+                 If list T preceded by "(N)" (where N is a tree-number),
+                 then T may contain a list of HTU's for tree number N.
+                 In the case of landmark configurations, you can specify
+                 the individual landmarks L to save as "<L>". Analogously
+                 to "map", using ":" instead of "!" invokes the down-pass
+                 (instead of final) state sets for internal nodes.
+    Generating data:
+       /C T N;       random data with C characters and T taxa (each of N states
+                     equiprobable at each cell)
+       +T P C N;     Neyman/Jukes-Cantor data, using tree T as model, probabili
+                     of stasis P, C characters, and N states.  If P = 0 , then
+                     assigns branch lengths at random. If "T P" is replaced by
+                     "!", then branch-lengths in tree-tags are used (and tag-tr
+                     is used as model tree).
+       >T P N L      as previous one, but L is the list of characters to genera
+                     ("T P" can also be replaced by "!").
+       <T M1-M2 S L  generates data with a length uniform for all branches, var
+                     between characters (for each character, length is taken fr
+                     interval M1-M2, uniformly), with S states, for characters
+                     list L.
+       &(X) T S L    generate data using an exponential function (lambda=X) to
+                     assign probability of homoplasy; distribute changes random
+                     on branches of tree T, with S states, for characters in li
+                     L.  If "(X)" skipped, default is 0.05 (or last value used)
+                     If no S specified, S=2; if no list L specified, it does no
+                     character.
+
+XWIPE
+    Remove data set from memory (allows changing settings)
+
+UNIQUE
+        discard duplicate trees (without collapsing)
+    *   collapse first and then discard duplicates
+
+UNSHARED
+    =   prune unshared taxa from trees when calculating consensus (default)
+    -   don't
+
+USMINMAX
+    N =M  set minimum number of steps for (sankoff) character(s) N to M
+          (if 0, turns user-minimum off for the character(s) specified).
+    *     save to log file the user-minima for sankoff characters, in a
+          format that can be subsequently input into TNT.
+    !     determine user-minimum for each sankoff character with a tree-
+          search. This is done for current cost and ancstates settings;
+          if any of those settings changed, repeating calculation of minima
+          may be advisable
+    +M N  set maximum number of states for all Sankoff character(s) N to M
+          (in optimization, try those states even if absent in terminals).
+          This does NOT apply to sankoff characters which correspond to a
+          character-state tree, which always use the actual maximum.
+          A different maximum can be defined for different characters,
+          and it can be collectively turned on/off with next option.
+          When defining maxima with "+", they're initially active.
+    [     If user maximum states defined, apply them.
+    ]     Do not apply user maximum states (keep definitions, though, so
+          they can be turned on again with "]").
+
+ZZZ
+       Go to sleep!! (=quit)
+
+BANDB
+    Generate all trees, and execute [commands] for each one
+    Syntax is:
+
+         bandb   [ commands ] ; stop
+
+    The trees generated include intermediate trees; the generated
+    tree is always the last one in memory (if no trees existed when
+    bandb started, then tree 0).  The tree can be modified or copied
+    onto other trees with [commands].  After bandb finishes, it leaves
+    a polytomous tree as tree 0 if bandb started without trees, or as
+    the Nth tree if N trees were in memory (this is done so that
+    tree-numbers continue being the same as within bandb).
+
+    Within bandb, the following commands are recognized:
+
+       cutbranch    don't continue descending into search tree
+       continue     skip subsequent instructions for this tree
+       endbranch    interrupt process
+
+    When running bandb, variables percswap, bbfull, and bbtax
+    are recognized.
+
+BARPLOT
+    make bar plots (or heat maps), as SVG files
+    Call repeatedly to open, plot, or close file.
+    Options:
+       open xxx    open file xxx for subsequent plotting (if warnings
+                   in effect, query before overwritting file).
+                   Sub-Options posibly following "open":
+                      size X Y      give size of frame (default 500,300)
+                      numcols       numbers of columns to plot (needed
+                                    for number of bars in graph; use varsize
+                                    if unknown)
+                      width         give column width (default=20)
+                      separation    give separation between columns (default
+                                    is plot width divided by numcols, minus
+                                    column width)
+                      font          give font size (default 30)
+                      color         give background color in RGB
+                      extrax N      leave extra space left of graph (e.g.
+                                    for writing legends)
+                      extray N      leave extra space below graph
+                      tiled CxR     do multiple tiled graphs, C columns, R rows
+       title       copy title (end with semicolon), at current graph. If
+                   title preceded by "-N" or "+P", it moves the title
+                   N points to the left or right, respectively.
+       graph C R   if opened tiled graphs, move to graph in column C, row R;
+                   resets legend positions and number of plotted columns
+       font N      size of font for legends (X-axis)
+                   Sub-Options posibly following "font":
+                      italics       ditto
+                      normal        ditto
+                      scale N       font size for scale (legends of y-axis)
+       usmax N     define maximum value to plot (top of graph), use 0 for
+                   maximum to be defined from plotted array
+       usmin N     define minimum value to plot (bottom of graph), use 0 for
+                   minimum to be defined from plotted array
+       plot var    plot values in variable (array) given as next argument.
+                   For each call to plot, relative maxima are used, unless
+                   a user-maximum is defined (with "usmax")
+                   Sub-Options posibly following "plot":
+                      usmax N        define maximum value to plot (top of graph
+                      usmin N        define minimum value to plot (bottom of gr
+                      empty          shift space, plot nothing
+                      color          followed by RGB, define color of plot
+                      upcolor        followed by RGB, extend bar to the
+                                     top of graph, with specified color
+       reset       change settings
+                   Sub-Options posibly following "reset":
+                      numcols        reset number of columns (column width and
+                                     separation also reset automatically)
+                      plot           start plotting again (e.g. to overlay
+                                     plots)
+                      width N        new column width
+                      separation N   new separation between columns
+                                     (reset width sets separation to default)
+                      shift N        shift columns N points to the right
+       legend      label next column with subsequent text (end with
+                   semicolon)
+                   Sub-Options posibly following "legend":
+                      angle N        use angle of N degrees
+                      move N         move legends N points down, back to
+                                     first column
+                      at X Y         write next legend at X,Y (absolute
+                                     coordinates, one time only)
+                      all +N/K       all column numbers (plus number N),
+                                     every K columns
+                      yshift N       shift legends for y-axis N points to the
+                                     left (use for positioning big numbers)
+                      range L H      consider that range for x-axis spans
+                                     range from L (lowest) to H (highest); if
+                                     followed by "/N", divided in N parts
+                                     (10 by default), if by "=N", increase
+                                     marks by N.
+       divide N    draw lines dividing frame in N parts, and y-axis legends
+                   (using as many decimals as set with "macfloat")
+                   Optional (instead of parts to divide):
+                      =Na Nb...Nn    draws horizontal lines at heights
+                                     Na, Nb , ... Nn of graph. Valid only
+                                     if "usmax" value defined.
+                       /N            draws horizontal lines, every N units.
+       heatmap     followed by the name of a two-dimensional variable, plot
+                   the values of the variable as an RGB code in a heat-map.
+       close       close graph (no more writing to file allowed!)
+
+COMBINE
+    Enter a loop, enumerating combinations. Syntax is:
+
+         combine X min/max varname  ...   endcomb
+
+    which enumerates the combination of min out of X elements,
+    then min+1 out of X, min+2 out of X, ... max out of X.  If
+    "/max" is ommited, then max = min.  The elements are written
+    to variable "varname" (must be an array), and listsize equals
+    number of elements minus 1 (keep in mind that listsize can be
+    subsequently modified within the loop, make sure to store value
+    at the beggining of loop if this is so).
+    Note: maximum possible recursion of "combine" is the same as
+    for "travtree" and "iterrecs".
+
+CONTINUE
+    skip to next loop iteration
+
+COPYTREE
+    X Y; copy tree X to tree Y (if no Y is specified, tree
+         X is added as last memory tree). First tree can be
+         specified as:
+           *   copy constraint tree
+           +   copy tagged tree
+           !   taxonomy tree
+         Note:  with the "[" option, if taxonomy is enabled,
+         and a tagged tree exists, then the tags in tag-tree are
+         copied onto the taxonomy; this options also modifies
+         taxon names, so as to contain taxonomy (at least, within
+         available space for taxon names).  Note that this option
+         will collapse untagged nodes in the tagged tree (since
+         they represent no category).
+
+CHKBREAK
+    Check for user interrupt
+
+CUTBRANCH
+    in bandb, don't descend into search tree
+
+ELSE
+    execute subsequent block of instructions when preceding IF not fulfilled
+
+END
+    finish an IF block
+
+ENDBRANCH
+    terminate bandb
+
+ENDLOOP
+    terminate loop
+
+ENDSWAP
+    terminate swapping
+
+ERRMSG
+    xxx;   call error handler with error xxx
+
+FORFILES
+      Loop, for all filenames matching a given string, executing command(s).
+      Syntax is:
+
+         forfiles fname  ... command(s)...  stop
+
+      this will run "command(s)" for all file(s) matching "fname".
+      Within "forfiles", the string "killfiles" interrupts subsequent
+      iterations, and "proc/;" terminates current iteration.
+      The current file is retrieved with "$curfile"; "curisdir" indicates
+      whether current file is a directory.  If you need to indicate spaces
+      within "fname", use the "^" symbol (just like file names in other
+      contexts).  Note that file names containing symbols used as sigils
+      for scripting (symbols ', ", $, or #) are skipped.
+
+GOTO
+    fname L [args];   goto file "fname", and start parsing from
+                      point labeled L (with "label L;")
+    =fname;           define "fname" as default target
+    -;                undefine default target
+    [fname L;         define "fname" and "L" as the file
+                      and label to parse AFTER an error/break.
+                      This is intended mostly to allow writing
+                      exit codes for graceful script termination.
+
+HIFILE
+    Handle input files (for parsing).
+     =N;               set maximum number of open input files to N.
+     open xxx          open file xxx (can open several at a time; last)
+                       one is set as "active" file).
+     active xxx        set file xxx as active file.
+     list              list open input files.
+     close [xxx ]      close file xxx (if unspecified, close
+                       active input file).
+     skip [xxx ] N     skip N bytes (default=1) from file xxx (if
+                       unspecified, active file).
+     skipline [xxx ] N skip N lines from file xxx (if unspecified,
+                       active file).
+     seek [xxx ] C N   read from file xxx (if unspecified, active
+                       file), until character C found (&N=ASCII N),
+                       N times.
+     skips [xxx ] N    skip N strings from file xxx (if unspecified,
+                       active file).
+     seeks [xxx ] S N  find string S in file xxx (if unspecified,
+                       active file), N times. String cannot contain
+                       whitespaces or a semicolon; those can be
+                       indicated with &N (where N=ASCII character)
+    Note that "open" and "active" (which must be given a file
+    name) do not use square brackets around file name, while the
+    other options (for which file name is optional), require brackets.
+    Except for setting maximum number of input files, the other options
+    can be combined together (a semicolon ends execution of hifile).
+    See also expressions hifline, hifchar, hifstring, hifnumber, hifeof.
+
+IF
+    Take decisions.  Expressions are as in C, but with
+    precedence always evaluated from left to right, for
+    all operations/comparisons.  Use parentheses to change
+    precedences.  Operators: + - * / and bitwise AND/OR/XOR (&|^)
+    Comparisons (==, !=, >, <, >=, <=) take on value 0 or 1.
+    Use && and || for logical AND/OR, and ! for negation.
+    Every IF must be matched by either END or ELSE.
+
+ITERRECS
+    Loop over reconstructions of a character, writing states to an
+    array.  Syntax is:
+
+               iterrecs T C rayname (actions) ; endrecs
+
+    For every reconstruction of character C on tree T, this stores
+    the values on array "rayname" and executes action(s).
+    Within iterrecs, 'rayname[N]' automatically returns number of
+    state (as a number, not as a bit set; this is different from
+    the "states" expression).  If name of array is preceded by &,
+    then in case a cell (=node) in the array is different from
+    "missing", it considers only reconstructions having that
+    state at that node (if the value is positive or 0), or only
+    reconstructions not having that state (if the value is negative;
+    to forbid state 0, set the value to a negative number between
+    0 and -1, which gets rounded as "-0").  Note that states can
+    be forbidden only for discrete characters.
+       When reconstructions are numerous, it is possible to take
+    a random sample of no more than N reconstructions (where each
+    reconstruction is equally likely to be sampled), using "/N"
+    before the name of the array.  This must generate _all_ the
+    reconstructions, then deliver the sample.  When reconstructions
+    are too numerous to generate them all, you can choose to solve
+    ambiguities randomly, using "\N" instead of "/N" (one of the
+    ambiguous nodes is picked randomly, one of its states is chosen
+    at random, then then rest of the states are recalculated,
+    and this is repeated until no more ambiguous nodes remain, N
+    times). Note that (unlike the "/" option) this does NOT produce
+    a random sample of all possible reconstructions for the character,
+    or the frequencies of the possible states among all reconstructions
+    [consider the case (0(0(?(?1), with two ambiguous nodes and three
+    possible reconstructions]. The seed for the randomized recons-
+    tructions is the general seed (changed with "rseed", not the
+    seed for macros ("macseed").
+       If character C is continuous, it can be followed by "*D",
+    where D is the increase between reconstructions (otherwise,
+    the interval limits are used).  Using "+" instead, the values
+    written in the array are the (signed) differences between ancestor
+    and descendant for each node (as in blength > or <).
+       Within iterrecs, the string "killrecs" interrupts execution,
+    and expression "recsteps" returns the cost of the reconstruction
+    (if forcing states, this may be larger than minimum length).
+    The command iterrecs can be nested (maximum level of nesting can
+    be set with iterrecs = N; default is 5). Nesting iterrecs may
+    require that "mxproc" is reset as well.
+
+KILLFILES
+    Skip subsequent iterations of "forfiles" command
+
+LABEL
+    N;     mark point as label (see "goto").
+
+LOOP
+    Do a loop, of the form:
+
+              loop X+Z Y  (actions)  stop
+
+    this repeats (actions) from X to Y, increasing (or
+    decreasing) by Z (default Z = 1).  The expression "#N"
+    is replaced by the value corresponding to Nth loop.  An
+    alternative syntax is:
+
+              loop = loopname X+Z Y  (actions)  stop
+
+    case in which "#loopname" is equivalent to the value of
+    current iteration. The default maximum number of nested
+    loops allowed is 15, but it can be changed with macro* to
+    any number.
+
+MACFLOAT
+    Determine floating-point options for macro language
+    =;        floating point calculations enabled
+    -;        use only integer calculations (saves memory space, not speed)
+    N;        if floating point enabled, uses N decimal digits when printing
+              floats (0 uses no digits; equivalent to integer only, but
+              uses more memory)
+    e;        if floating point enabled, use exponential notation
+    *;        if floating point enabled, use default printing mode
+
+MACRO
+    =        activate macro language
+    -        deactivate
+    *K N     re-set max. number of loops as K, user variables as N
+    [N       re-set memory to be used by macro language as N (KB)
+    +        in macros, read taxon/character names as numbers
+    !        don't read taxon/character names as numbers
+    prot N   set protection level for macros as N
+                0  no protection
+                1  check whether accesses to arrays are within dimensions
+                2  prevent re-assembling of multidimensional arrays by user
+
+MACREPORT
+    =     inform results of comparisons/assignments during macros (=debugging)
+    -     don't (default)
+
+MACSEED
+    N   set seed for random number generator for macros
+
+MAKETABLE
+        Followed by number/name of one-dimensional array, displays in a table
+        the values for the array (copying everything from the array name to a
+        semicolon into the table title).  If title preceded by "=N", then it
+        displays up to N values in the table.  Using '*' as first argument,
+        it displays two arrays in a combined table.  Maketable is illegal when
+        macro protection is off; combined tables are illegal when floating
+        point is enabled.  Only values >= 0 can be displayed.  In double
+        tables, if one array has more values than the other, the invalid cells
+        are displayed as "0."
+           Maketable can also be used to copy values from tables to arrays:
+        with "maketable + varname;" subsequent invocations of any command
+        which writes (single valued) tables will store the values in array
+        "varname".  Variable "listsize" contains number of values written
+        to array minus 1.  Use "maketable -;" to subsequently turn this off.
+
+PRIVATE
+    N;     keep N variables (besides named ones) as private
+
+PROGRESS
+    create/update progress bar. Usage: progress j k text, where
+    j= done, k= to do, text= everything until a semicolon is
+    found.  Always must close progress bar with "progress/;"
+    Report can be "refreshed" with "progress=;".
+
+RECURSE
+    recursively call the input file being parsed (arguments
+    to "recurse" are passed to the input file)
+
+RESETSWAP
+    save current rearrangement and re-start swapping
+    (valid only within tsprit or tbrit commands)
+
+RESETTIME
+    re-set time for macros
+
+RETURN
+       N;     set value of internal variable "exstatus" to N
+       =      if some variables have been defined within file,
+              close file retaining variables (instead of undefining)
+
+SAFE
+    xxx N ;  string xxx can be "vars,", "loops,", or "ram"; it checks
+             whether N variables, loops, or bytes for macro are free, and
+             reports an error otherwise
+
+SET
+    Set value of user variables
+      N    set value of variable N to subsequent expression.
+      N $  set variable N as string (semicolon ends).
+           Fixed strings (output only): $dataset, $taxon N,
+           $character N, $state N S, $block N, $agroup N,
+           $tgroup N, $xgroup N, $bitset N, $dnabitset N,
+           $taxonomy N, $curfile, $ttag N, $hifstring, $curwd
+      +    when converting strings (with $varname), add a blank
+           at the end.
+      -    don't.
+      *    copy and operate between arrays. Syntax is:
+               set * a b + c ;
+           this will set each cell of array "a" to the sum of
+           the cells in arrays "b" and "c".  Possible operators
+           are + - * / & | < > ^. Logical comparisons save value 1
+           (if true) or 0 (if false) to array "a"; possible
+           comparisons are ==, !=, ?> (is "b" larger than "c"?),
+           ?< (the opposite), ?>= and ?<=. If "b" or "c" is
+           a number, a constant value is used (to get from a user-
+           variable, enclose value within parentheses).  If no array "c"
+           specified, then just copies "b" to "a".  An alternative
+           syntax is:
+               set * a += b ;
+           which will sum cells of "b" to "a" (other operators
+           that can be used this way are -=, *=, /=, &=, |=, and
+           ^=).  This can be used to easily initialize or copy
+           arrays without using loops.
+     !a b  sort array "b", writing into array "a" the indices
+           of "b" values in increasing order.  E.g. if values of
+           b = 12, 8, 6, 7, then a becomes = 2, 3, 1, 0. Both arrays
+           must have the same size, and be 1-dimensional.  See "help+
+           sortlist" for an option to sort only the first N values of
+           an array.
+
+SETARRAY
+    J,...,K,L  XXX
+           set all cells of variable XXX, of dimensions Jx...xLxK (expression
+           must be followed by Jx...xKxL values, ending with a semicolon)
+
+SETLOOP
+    N;     reset loop to N
+
+SPRIT
+    "sprit N (commands) stop" does SPR to tree N, executing "commands"
+    for each rearrangement (see also resetswap, endswap)
+
+TBRIT
+    "tbrit N (commands) stop" does TBR to tree N, executing "commands"
+    for each rearrangement (see also resetswap, endswap, continue)
+
+TRAVTREE
+    Loop, travelling a specified tree, T. Syntax is:
+
+          travtree type T N varname (actions) ; endtrav
+
+    in every cycle, the number of node visited is written onto
+    the specified variable. Type can be one of four:
+
+      up    travels tree in an unpward pass, from node N; if "up"
+            is followed by the string "terms" it also does terminals,
+            otherwise it doesn't
+      down  travels in a down pass, towards node N, terminals never
+            included
+      below travels from node N towards root
+      path  travels from node N1 to N2 (two nodes instead of one
+            must be specified for "path")
+      des   visits all immediate descendants of node N
+
+    The variable can be preceded by a minus sign (-), case in which
+    node N itself is not included in the list.  Within travtree,
+    the command "killtrav" ends current travelling, and (in the
+    case of up-passes) the command "skipdes" excludes all the
+    descendants of current node from the loop.
+    Note that the order in which nodes are travelled in scripting
+    commands may not agree with the sequence with which nodes are
+    plotted in tree diagrams.  If you want to make sure that scripts
+    use the same sequence as in plotting, turn this option ON with
+    "travtree +" (OFF with "-").
+
+VAR
+    N;       report name and value of variable N (no N = all vars.)
+    /N;      same, using bits (up to 30)
+    = N XXX; name variable number N as "XXX."  Replacing the N by a '+'
+             names the next variable. Variables cannot be renamed, but
+             variables named within a file can be denamed with '-'.  This
+             allows variables to behave as "static" within a file.  If
+             several variables have identical names, using the name
+             accesses the last one named (e.g. in the current file).
+    :        name variables, using a looser format than with =.  All that
+             is neded here is a list of names (and their dimensions).
+    -N;      dename all variables above N (no N = all variables named from
+             within the current input file.
+    N;       if N is defined as an array, report all the values in the array
+    N*;      same, saving in "setarray" format (readable by the program)
+    +        display a (very simple) graph with the values of two arrays.
+             General syntax is:
+                 var + W [ minx maxx ] H [ miny maxy ] array_A array_B ;
+                 The "+" symbol can be followed by "/x1 y1 x2 y2",
+             coordinates for extra lines to draw (e.g. a frame); up to 15
+             lines can be included in one diagram.  RGB color codes and
+             thickness for the user-lines can be indicated (in parentheses)
+             after the coordinates (default is black, thickness 1).  The "+"
+             symbol can also be followed by "-" (only valid when SVG files
+             are used for plotting, see below), which then prints only the
+             user-specified lines (in this case, specification of minx,
+             maxx, miny, and maxy are mandatory, and the specification of
+             arrays A and B must be skipped).  Alternatively, if the "+"
+             symbol is followed by another "+", then a gray background
+             is used for SVG plots; if you want to control the background
+             use "*(R G B)" instead of the second "+" (this is ignored
+             in metafiles; it affects only SVG files).
+                 The "+" symbol (possibly followed by "+", "-", or line
+             definition), is followed by W, the number of spaces to use on
+             X-axis; H is number of lines to use on Y-axis; minx and maxy
+             are starting and end points of X axis, likewise for Y (if
+             unspecified, min/max values in array used). Maxx and maxy can
+             be followed by "/Div", distance between primary divisions,
+             and this can be followed by the number of primary divisions
+             to use longer tick lines.
+                 Array_A and array_B are names of (one-dimensional) arrays;
+             the graph plots values of array_B[i] against array_A[i]; if
+             array_A doesn't have the same number of values as array_B,
+             then the minimum number is used; if array_B is not specified,
+             then the graph plots array_A[i] against i (for each of the
+             values in array_A).
+                 The diagram produced can be saved to a metafile (Windows
+             versions; if a metafile has been opened with "log &", then
+             the diagram goes to the file automatically) or an SVG file
+             (previously opened with var ! fname) .  The size of the
+             dots used in the graph can be given (in pixels) after the
+             two variables to plot; if followed by three numbers, in paren-
+             theses, these are the RGB color codes for the dots.  For SVG
+             files, replacing the parentheses by square brackets uses
+             squares instead of circles, and braces, uses diamonds.
+             To draw a line connecting the dots, give RGB color between
+             slashes ("/ R G B /")
+    !fname   Open file "fname", so that subsequent calls to "var+" save
+             plot to that file, as an SVG file.  If no file name given,
+             it closes currently open file (if any).  Several calls to
+             "var+" overlay plots in the same file. Other options following
+             "var !" are:
+                 = C,R    place diagram at column C, row R
+                 + C,R    move diagram C columns (if C negative, left),
+                          and R rows (if R negative, up)
+                 ! xxx    use xxx as title for a plot at current position
+                 !+n xxx  use xxx as title, with legend x-shifted n points
+                 * n      use a thickness of n points for lines
+    \X Y    when saving plots to SVG files, use a width and height X, Y.
+            This must be defined prior to opening the file with "var !".
+            X and Y can be followed by "/S", where S=separator size, for
+            multiple rows/columns of diagrams.  Multiple columns/rows, are
+            indicated as X Y /S x C x R (where C=columns, R=rows).
+    &X Y    linear regression of variables X and Y (must be arrays). If
+            *W follows Y, then weights in W are used. Weights must be
+            between 0 and 1 (if some weights exceed unity, all weights
+            are rescaled; having a point of weight W is equivalent to
+            having W points with those coordinates instead of one). If
+            a number N follows after the arrays, then only the first
+            N values of the arrays are considered in the regression.
+            Results of regression are written into variables regr,
+            regalfa, and regbeta.
+            
+            
+            
+tnt*>help+;
+
+MACROS:
+      bandb    barplot    combine   continue   copytree   chkbreak  cutbranch
+       else        end  endbranch    endloop    endswap     errmsg   forfiles
+       goto     hifile         if   iterrecs  killfiles      label       loop
+   macfloat      macro  macreport    macseed  maketable    private   progress
+    recurse  resetswap  resettime     return       safe        set   setarray
+    setloop      sprit      tbrit   travtree        var
+
+Expressions (enter "help+xxx" for help on xxx):
+   absicnl        accepted       allvars        argnumber      anc
+   bbfull         bbtax          biginsect      bignotsect     blockend
+   blocklist      blockstart     bigntax        bittype        break
+   bremlist       charsingp      collapse       combin         comnod
+   cost           contscale      contmins       contmaxs       curisdir
+   dcomp          distnode       downlist       deslist        discoeff
+   editcost       eqgroup        eqstring       eqtrees        exstatus
+   fit            firstdes       fixlik         flipd          freevars
+   freqlist       freqdlist      gcomp          getarep        getrandom
+   getresponse    gfreq          grandscore     grouplist      grpdist
+   grptogrp       havetgp        homo           hifchar        hifeof
+   hifline        hifnumber      hifspy         hifstring      implik
+   impwtlist      intpol         isact          isactax        isadd
+   issank         isanc          iscateg        iscont         isdup
+   isfile         isinagroup     isinfo         isinstring     isintree
+   isintgroup     isinxgroup     islmark        ismono         lastsibyl
+   lastsupp       length         lenstring      listsize       log
+   lik            linux          lmdims         lmerror        lmfactor
+   lmmaxdist      lmnchar        lmnpoints      lmscore        lmwt
+   lmxcell        lmxcoord       macseed        maxcfork       maxstate
+   maxsteps       maxtgroups     maxtrans       maxtrees       maxval
+   maxvars        meanval        minsteps       mintrans       minval
+   missing        mklik          mplik          mono           nblocks
+   nchar          nnodes         nodfork        nodtosect      nstates
+   ntax           ntrees         numbits        numclads       numcategs
+   numdes         numhits        nummissing     outgroup       percswap
+   piwe           power          protmode       randomlist     rearrangs
+   recsteps       regalfa        regbeta        regr           report
+   repspoly       rfdist         root           rseed          score
+   seclevel       seqstart       seqend         simgroup       simplik
+   sister         slerrmarg      smplik         softhomo       softlength
+   softscore      softfit        sortlist       spearman       splitgroup
+   sprdiff        sprsim         states         statediff      stddev
+   stringend      stringsim      symcoeff       matchtax       taxinblock
+   taxingp        tcount         time           tnodes         treesingp
+   tsize          uplist         usdram         varsize        vtrees
+   weight         windows

@@ -1,0 +1,17 @@
+tread 'tree(s) from TNT, for data in datos0.mtr'
+(taxon0 (taxon3 (taxon4 (taxon1 taxon2 ))))*
+(taxon0 (taxon1 (taxon3 (taxon2 taxon4 ))))*
+(taxon0 (taxon3 (taxon1 (taxon2 taxon4 ))))*
+(taxon0 ((taxon1 taxon3 )(taxon2 taxon4 )))*
+(taxon0 (taxon2 (taxon3 (taxon1 taxon4 ))))*
+(taxon0 ((taxon1 taxon4 )(taxon2 taxon3 )))*
+(taxon0 (taxon3 (taxon2 (taxon1 taxon4 ))))*
+(taxon0 ((taxon1 taxon2 )(taxon3 taxon4 )))*
+(taxon0 (taxon4 (taxon3 (taxon1 taxon2 ))))*
+(taxon0 (taxon4 (taxon2 (taxon1 taxon3 ))))*
+(taxon0 (taxon2 (taxon4 (taxon1 taxon3 ))))*
+(taxon0 (taxon1 (taxon2 (taxon3 taxon4 ))))*
+(taxon0 (taxon2 (taxon1 (taxon3 taxon4 ))))*
+(taxon0 (taxon4 (taxon1 (taxon2 taxon3 ))))*
+(taxon0 (taxon1 (taxon4 (taxon2 taxon3 ))));
+proc/;

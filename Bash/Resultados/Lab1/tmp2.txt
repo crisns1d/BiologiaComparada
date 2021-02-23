@@ -1,0 +1,70 @@
+GeneTitle
+EPH receptor B3
+estrogen-related receptor alpha
+cytochrome P450, family 2, subfamily A, polypeptide 6
+scavenger receptor class B, member 1
+tubulin tyrosine ligase-like family, member 12
+chromosome 2 open reading frame 59
+WAP four-disulfide core domain 2
+mitogen-activated protein kinase 1
+mitogen-activated protein kinase 1
+ADAM metallopeptidase domain 32
+spermatogenesis associated 17
+hypothetical protein MGC24975
+hypothetical protein MGC24975
+PX domain containing serine/threonine kinase
+PX domain containing serine/threonine kinase
+vacuolar protein sorting 18 homolog (S. cerevisiae)
+chromosome 9 open reading frame 30 /// transmembrane protein with EGF-like and two follistatin-like domains 1
+zinc finger, DHHC-type containing 11
+ATPase, H+ transporting, lysosomal 31kDa, V1 subunit E2
+AFG3 ATPase family gene 3-like 1 (S. cerevisiae)
+cartilage intermediate layer protein 2
+cartilage intermediate layer protein 2
+phosphatidylinositol glycan anchor biosynthesis, class X
+transmembrane protein 196
+solute carrier family 39 (zinc transporter), member 13
+bestrophin 4
+chromosome 6 open reading frame 199
+coronin 6
+tetratricopeptide repeat domain 39C
+nexilin (F actin binding protein)
+chromosome 15 open reading frame 40
+retina and anterior neural fold homeobox 2
+microfibrillar-associated protein 3
+eyes absent homolog 3 (Drosophila)
+GTPase, IMAP family member 1
+GTPase, IMAP family member 1
+GTPase, IMAP family member 1
+kallikrein-related peptidase 8
+coiled-coil domain containing 65
+coiled-coil domain containing 65
+family with sequence similarity 122C
+family with sequence similarity 122C
+coiled-coil domain containing 11
+coiled-coil domain containing 11
+armadillo repeat containing, X-linked 4
+retinoblastoma binding protein 6
+goosecoid homeobox
+Sp7 transcription factor
+phosphodiesterase 7A
+CCR4-NOT transcription complex, subunit 7
+crystallin, zeta (quinone reductase)-like 1
+protease, serine, 33
+protease, serine, 33
+chromosome 19 open reading frame 26
+chromosome 19 open reading frame 26
+chromosome 8 open reading frame 45
+toll-interleukin 1 receptor (TIR) domain containing adaptor protein
+liver expressed antimicrobial peptide 2
+musashi homolog 2 (Drosophila)
+scinderin
+scinderin
+CCCTC-binding factor (zinc finger protein)-like
+family with sequence similarity 18, member B2
+retinol dehydrogenase 10 (all-trans)
+retinol dehydrogenase 10 (all-trans)
+serine-arginine repressor protein (35 kDa)
+family with sequence similarity 71, member A
+family with sequence similarity 71, member A
+hypothetical protein FLJ30901

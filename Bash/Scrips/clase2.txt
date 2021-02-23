@@ -1,0 +1,400 @@
+yum install curl-devel expat-devel gettext-devel \ openssl-devel zlib-devel
+sudo apt-get install git
+git --version
+sudo apt-get update
+sudo apt-get upgrade
+git --version
+sudo apt install libz-dev libssl-dev libcurl4-dev libexpar1-dev gettext cmake gcc
+sudo apt install libz-dev libssl-dev libcurl4-gnutls-dev libexpar1-dev gettext cmake gcc
+mkdir tmp
+cd /tmp
+curl -o git.tar.gz https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.26.2.tar.gz
+tar -zxf git.tar.gz
+cd git-*
+make prefix=/usr/local all
+sudo apt install make
+make prefix=/usr/local all
+sudo make prefix=/usr/local install
+cd..
+cd ..
+sudo install gcc
+sudo apt install gcc
+cd tmp
+cd git-2.26.2/
+make prefix=/usr/local all
+cd ..
+sudo apt install libz-dev libcurl4-gnutls-dev libecpat1-dev gettext cmake gcc
+sudo apt install libz-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc
+cd tmp
+cd git-*
+make prefix=/usr/local all
+cd ..
+tar -zxf git.tar.gz
+cd git-*
+make prefix=/usr/local all
+cd ..
+sudo apt install openssl-dev libcurl-dev
+sudo apt install libz-dev libcurl4-gnutls-dev libexpat1-dev openssl-dev gettext cmake gcc
+sudo apt install libz-dev libcurl4-gnutls-dev libexpat1-dev libcurl-openssl-dev gettext cmake gcc
+sudo
+bash
+bash
+sudo apt-get update
+git --version
+git update
+git --help
+ls
+cd Documents
+ls
+git clone https://github.com/Dmirandae/nix-BioUIS.git
+cd nix-BioUIS/
+ls
+cd semana1
+ls
+semana1Presentacion.pdf
+evience semana1
+evince semana1.pdf
+Acrobat Reader CD semana1.pdf
+Acrobat Reader CD semana1
+man man
+AcrobatReaderCD semana1
+Acrobat Reader DC semana1
+AcrobatReaderDC semana1
+man man
+man help
+man -help
+man ls
+ls
+ls -C
+ls -sh
+ls -s
+ls -lsh
+#### inicio comentarios
+### ls: lista, -h: leible por humanos
+ls
+file out00
+file out01
+file semana1.pdf
+### file muestra el tipo de archivo, la extencion 
+file pandoc.sh
+stat out
+stat -f out
+stat -t out
+cat out
+cat out>otro
+cat otro{
+cat otro
+##cat: concatenar, x>xx: concatena x en un nuevo archivo xx, y x>>xxx concatena x junto con xxx
+mkdir Directorio1
+mkdir directorio1
+ls
+cp out MiOut
+cat MiOut
+cp Directorio1/MiOut
+mv miout miotroout
+rm miotroout
+rm -r Directorio1
+ls
+pwd
+history -w clase1
+less semana1.pdf
+less semana1Presentacion.pdf
+cd ..
+less semana1.pdf
+ls
+cd semana1
+ls
+df -h
+df -H
+df -h out
+df -H out
+df -h
+df
+ls
+cp Downloads/ArchivosAdicionales
+ls
+cp arrayDat.txt temp0
+ls
+mv temp0 ~/Desktop/
+ls ~/
+ls home/bash/Desktop
+~/
+mv temp0 ~/mnt/c/Users/Desktop
+mv temp0 /mnt/c/Users/Desktop
+mv temp0 mnt/c/Users/Desktop
+mv temp0 Documents
+cd ..
+cd..
+cd ..
+ls
+cd nix-BioUIS
+cd semana1
+ls
+head -n -1 arrayDat.txt
+head -n 1 arrayDat.txt
+head -n 5 arrayDat.txt
+head -n 1 arrayDat.txt
+head -n -1 arrayDat.txt
+head -n -2 arrayDat.txt
+head -n -1 arrayDat.txt
+cat arrayDat.txt
+cut -f 1 arrayDat.txt
+cut -f 3 arrayDat.txt
+cut -f 1-3 arrayDat.txt
+cut -f 1-3 arrayDat.txt < probe2gene.txt
+cut -f 1-3 arrayDat.txt > probe2gene.txt
+cat probe2gene,txt
+cat probe2gene.txt
+cut -f 1 arrayAnnot.txt > tmp.txt
+cut -f 2 arrayAnnot.txt > tmp.txt
+cut -f 3 arrayAnnot.txt > tmp.txt
+paste tmp1 tmp2 tmp3 > arrayAnnotOrdered.txt
+cut -f 1 arrayAnnot.txt > tmp.txt
+cut -f 1 arrayAnnot.txt > tmp1.txt
+cut -f 1 arrayAnnot.txt > tmp2.txt
+cut -f 1 arrayAnnot.txt > tmp1.txt
+cut -f 2 arrayAnnot.txt > tmp2.txt
+cut -f 3 arrayAnnot.txt > tmp3.txt
+paste tmp1 tmp2 tmp3 > arrayAnnotOrdered.txt
+cut -f 1 arrayAnnot.txt > tmp1.txt
+cut -f 2 arrayAnnot.txt > tmp2.txt
+cut -f 3 arrayAnnot.txt > tmp3.txt
+cut -f 1 arrayAnnot.txt > tmp1
+cut -f 2 arrayAnnot.txt > tmp2
+cut -f 3 arrayAnnot.txt > tmp3
+paste tmp1 tmp2 tmp3 > arrayAnnotOrdered.txt
+sort probe2gene.txt
+sort -k 2 probe2gene.txt
+sort -r -k 2 probe2gene.txt
+sort -n -k 2 probe2gene.txt
+sort -k 2 probe2gene.txt
+wc arrayDat.txt
+cat arrayDat.txt
+wc .l arrayDat.txt
+wc -l arrayDat.txt
+ls * .txt | wc -l
+ls *.txt | wc -l
+man uniq
+cp arrayAnnot.txt semana1
+ls
+uniq -f 1 arrayAnnot.txt
+uniq -f 1 arrayAnnot.txt | wc -l
+uniq 1 arrayAnnot.txt | wc -l
+uniq arrayAnnot.txt | wc -l
+uniq -f 2 arrayAnnot.txt | wc -l
+uniq -f 1 -c arrayAnnot.txt | wc -l
+uniq -f 1 -c arrayAnnot.txt
+uniq -f 1 -d arrayAnnot.txt | wc -l
+uniq -f 1 -d arrayAnnot.txt
+uniq -f 1 -u arrayAnnot.txt
+cd Downloads
+xdg-open lectura1.pdf
+sudo apt-get install acroread
+acroread lectura1.pdf
+sudo apt-get install xpdf
+xpdf lectura1.pdf
+ls
+xpdf Lista.pdf
+sudo apt-get install evince
+evince Lista.pdf
+cd Documents
+ls
+cd nix-BioUIS/
+ls
+cd semana2
+ls
+wc -l aarrayDat.txt
+wc -l arrayDat.txt
+head -n -1 arrayDat.txt
+head -n -1 arrayDat.txt | wc -l
+cut -f 1 arrayDat.txt | head
+head arrayDat.txt
+cut -f 3 arrayDat.txt | head
+cut -f 1-3 arrayDat.txt | head
+cut -f 1,3 arrayDat.txt | head
+sort -k 2 probe2gene.txt
+sort -k 2 arrayDat.txt
+sort -k 2 arrayAnot.txt
+sort -k 2 arrayAnnot.txt
+cut -f 2 arrayAnnot.txt | sort | head
+uniq arrayAnnot.txt| wc -l
+ls 
+man grep
+grep -w chr arrayAnnot.txt
+grep chr arrayAnnot.txt
+grep -w chromosome arrayAnnot.txt
+grep -w Chromosome arrayAnnot.txt
+grep -w chromosome arrayAnnot.txt
+grep -c orf arrayAnnot.txt
+grep orf arrayAnnot.txt | wc -l
+grep orf arrayAnnot.txt
+grep -c -v orf arrayAnnot.txt
+grep -v orf arrayAnnot.txt
+grep -n orf arrayAnnot.txt
+cut -f 3 arrayAnnot.txt | head -n 5 > tmp
+cut -f 3 arrayAnnot.txt | head -n 5
+cat tmp
+grep -f tmp arrayAnnot.txt
+grep -c -f tmp arrayAnnot.txt
+grep -n -f tmp arrayAnnot.txt
+head arrayDat.txt
+head -3 arrayDat.txt
+join arrayDat.txt arrayAnnot.txt | head -5
+join arrayAnnot.txt arrayDat.txt | head -5
+join arrayAnnot.txt arrayDat.txt | cut -f 6 |head -3
+join -t $'\t' arrayDat.txt arrayAnnot.txt | cut -f 6
+join -t $'\t' arrayDat.txt arrayAnnot.txt | cut -f 6 | head .3
+join -t $'\t' arrayDat.txt arrayAnnot.txt | cut -f 6 | head -3
+ls
+sort -k 1 -t $'\t' arrayAnnot.txt > tmp1
+sort -k 3 -t $'\t' arrayAnnot.txt > tmp2
+cat tmp1
+cat tmp1 | head
+sort -k 2 -t $'\t' arrayAnnot.txt > tmp1
+cat tmp1
+join tmp1 tmp2
+join tmp1 tmp2 > tmp3
+head arrayDat.txt
+wx -l arrayDat.txt
+wc -l arrayDat.txt
+split -50 arrayDat.txt
+ls
+head xaa
+head xab
+man sed
+sed s/chromosome/chr/g arrayAnnot.txt
+grep chromoso arrayAnnot.txt
+grep chr tmp
+sed s/chr/chromo/g tmp > tmp
+head tmp
+grep chr arrayAnnot.txt
+man awk
+awk '{print}' arrayDat.txt
+awk '{print $1}' arrayDat.txt
+awk '{print $1}' arrayDat.txt | head
+awk -f "_" '{print $1}' arrayDat.txt | head
+awk -t '{print $1}' arrayDat.txt | head
+awk -t "_" '{print $1}' arrayDat.txt | head
+awk '{print $1, $3, $2, "\t"}' arrayDat.txt | head
+awk '{print $1, ********, $3, $2, "\t"}' arrayDat.txt | head
+awk '{print $1, ********, $3, "\n", $2}' arrayDat.txt | head
+awk '{print $1,********,$3, "\n", $2}' arrayDat.txt
+awk '{print $1,********, $3, [2~[A"\t", $2}' arrayDat.txt
+awk '{print $1,********, $3, "\n", $2}' arrayDat.txt
+awk '{print NF$}' arrayDat.txt
+awk '{print $NF}' arrayDat.txt
+awk '{print $NF}' arrayDat.txt | Head
+awk '{print $NF}' arrayDat.txt | head
+awk '{print nf}' arrayDat.txt | head
+awk '{print NF}' arrayDat.txt | head
+awk '{print Nf}' arrayDat.txt | head
+awk '{print $NF -1}' arrayDat.txt | head
+awk '{print "NF -1"}' arrayDat.txt | head
+awk 'BEGIN {print 'Hello world'}'
+awk 'BEGIN {print "Hello world"}'
+awk '{print "Hello world"}'
+awk 'BEGIN {PRINT "Hello world"}'
+awk 'BEGIN {print "2+3="}'
+awk 'BEGIN {print 2+3=}'
+awk 'BEGIN {print 2+3}'
+awk 'BEGIN {print "2+3=" 2+3}'
+awk 'BEGIN {print "2+3=", 2+3}'
+awk 'BEGIN {print "2+3=\t", 2+3}'
+awk 'BEGIN {print "2+3=\t" 2+3}'
+awk 'BEGIN {print "2+3=\n" 2+3}'
+awk 'NR < 66' arraDat.txt
+awk 'NR < 66' arrayDat.txt
+awk 'NR < 6' arrayDat.txt
+awk 'NR > 99' arrayDat.txt
+awk 'NR == 1' arrayDat.txt
+awk 'NR = 1' arrayDat.txt
+awk 'NR > 1 && NR < 7' arrayDat.txt
+awk 'END {print NR}'
+awk 'END {print NR}' arrayDat.txt
+awk 'END {print NR}' arrayAnnot.txt
+awk '{print NR}' arrayAnnot.txt
+awk '{print NR}' arrayDat.txt
+awk 'BEGIN {print NR}' arrayDat.txt
+awk '{print NR}:{print NR}' arrayDat.txt
+awk '{print NR}: {print NR}' arrayDat.txt
+awk '{print NR} : {print NR}' arrayDat.txt
+awk '{print NR} :; {print NR}' arrayDat.txt
+awk '{print NR} ; {print NR}' arrayDat.txt
+awk '{print NR;print NR}' arrayDat.txt
+awk 'END {print NR;}'
+awk 'NR > 1 {s=0; for (i=2; i<=NF; i++) s=s+$i; print s}' arrayDat.txt
+awk 'NR > 1 {s=0; for (i=2; i<=NF; i++) s=s+$i; print s}' arrayDat.txt | head
+-2
+awk 'NR > 1 {s=0; for (i=2; i<=NF; i++) s=s+$i; print s}' arrayDat.txt | head -2
+awk 'NR > 1 {s=0; for (i=2; i<=2; i++) s=s+$i; print s}' arrayDat.txt | head -2
+awk 'NR > 1 {for (i=2; i<=2; i++) s=s+$i; print s}' arrayDat.txt | head -2
+awk '{k=0; for i=2; i<=NF; i++) s=s+$i; s=s/n; print s}' arrayDat.txt | head -2
+awk '/or*/' arrayAnnot.txt
+awk '/orf/' arrayAnnot.txt
+awk '/or*/' arrayAnnot.txt
+awk '/orf/ {print $1}' arrayAnnot.txt
+awk '/orf/ {n++}; END {print n+1}' arrayAnnot.txt
+awk '/orf/ {n++}; END {print n+o}' arrayAnnot.txt
+ls
+cat dengue_referencias_30.10.12_D1.csv 
+cat dengue_referencias_30.10.12_D1.csv | head
+cat dengue_referencias_30.10.12_D1.csv | wc -l
+cat dengue_referencias_30.10.12_D1.csv | head
+cut -f 1,2,3 dengue_referencias_30.10.12_D1.csv 
+cut -f 1 dengue_referencias_30.10.12_D1.csv | head
+cut -d, -f 1,2,3 dengue_referencias_30.10.12_D1.csv | head
+cut -d, -f 1 dengue_referencias_30.10.12_D1.csv | head
+cut -d, -f 1 dengue_referencias_30.10.12_D1.csv | head -1
+cut -d"," -f 1 dengue_referencias_30.10.12_D1.csv | head
+cut -d"," -f 1,2,3 dengue_referencias_30.10.12_D1.csv | head
+cut -d\, -f 1,2,3 dengue_referencias_30.10.12_D1.csv | head
+wc DNAdata.fas 
+grep -c "^>" DNAdata.fas 
+sed 's/>.*/&_LOQUESEAWUU/' DNAdata.fas 
+sed 's/>.*/&_LOQUESEAWUU/' DNAdata.fas > modif.fas
+grep -c "^>" modif.fas 
+grep -c "^>" modif.fas |head -2
+grep -c "^>" modif.fas |head 2
+grep -c "^>" modif.fas | head -2
+grep "^>" modif.fas | head -2
+sed 's/>.*/_LOQUESEAWUU/' DNAdata.fas > modif.fas
+grep "^>" modif.fas | head -2
+sed 's/>.*/_LOQUESEAWUU/' DNAdata.fas > modif.fas
+grep "^>" modif.fas | head -2
+grep modif.fas | head -2
+grep "^_" modif.fas | head -2
+awk '{print #1}' DNAdata.fas  > output.fas
+awk '{print $1}' DNAdata.fas  > output.fas
+head output.fas
+grep -o -E "^>\W+" DNAdata.fas | tr -d ">"
+grep -o -E "^>\W+" DNAdata.fas | tr -d ">" | head
+grep -o -E "^>\W+" DNAdata.fas | tr -d ">" "z" | head
+sed -e 's/\(^>.*$\)/#\1#/' DNAdata.fas 
+sed -e 's/\(^>.*$\)/#\1#/' DNAdata.fas | head -2
+cd Documents
+ls
+cd nix-BioUIS/
+ls
+cd semana3
+ls
+cd../
+cd..
+cd ..
+semana2
+ls
+semana2
+cd semana2
+ls
+cd ..
+cd semana3
+ls
+cd ..
+semana2
+cd semana2
+ls
+cat DNAdata.fas
+sed -e '/^>/s/$/@' -e 's/^>/#/' DNAdata.fas | tr -d '\n' | tr "#" "\n" | tr "@" "\t" | sort -u -t $'\t' -f -f 2,2 | sed -e 's/^/>/' -e 's/\t/\n/'
+sed -e '/^>/s/$/@' -e 's/^>/#/' DNAdata.fas | tr -d '\n' | tr "#" "\n" | tr "@" "\t" | sort -u -t $'\t' -f -k 2,2 | sed -e 's/^/>/' -e 's/\t/\n/'
+sed -e '/^>/s/$/@' -e 's/^>/#/' DNAdata.fas | tr -d '\n' | tr "#" "\n" | tr "@" "\t" | sort -u -t $'\t' -f -k 2,2 | \sed -e 's/^/>/' -e 's/\t/\n/'
+cat texto.txt
+history -w hisotria.txt

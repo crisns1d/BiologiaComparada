@@ -1,0 +1,51 @@
+macro=;
+log piweColapsado.txt;
+xread 
+'Zero (6-7), poly (1-5 8-12), Hennig=16, NONA r1=6, r3=12(ksave9)' 9 10 
+A  000000000 
+B  100000000 
+C  110000100 
+D  110010000 
+E  110010010 
+F  111101110 
+G  111101100 
+H  111100001 
+I  111100010 
+J  111100011 
+;
+
+/* colapsado de tbr en tnt */
+
+
+
+xmult= ratchet 20 replic 20 hold 2 drift 10; coll 6; condense;best;
+
+loop=tipo 1 6;
+	loop=k 0 5;
+		piwe -;
+		xmult= ratchet 20 replic 20 hold 2 drift 10; coll #tipo; condense;best; tp *;
+		
+		set 0 (#k * 10) +1 ;
+
+		piwe = '0';
+		quote k '0' colapsado #tipo;
+		xmult= ratchet 20 replic 20 hold 2 drift 10; coll #tipo; condense;best; tp *;
+
+	stop;
+stop;
+ 
+zz;
+proc/;
+
+/*
+istrucciones para hennig86
+h;
+mh;
+bb;
+mh*;
+bb*;
+ie;
+xs w;ie;
+nel;
+p-;
+*/

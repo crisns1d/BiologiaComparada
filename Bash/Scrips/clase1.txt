@@ -1,0 +1,99 @@
+yum install curl-devel expat-devel gettext-devel \ openssl-devel zlib-devel
+sudo apt-get install git
+git --version
+sudo apt-get update
+sudo apt-get upgrade
+git --version
+sudo apt install libz-dev libssl-dev libcurl4-dev libexpar1-dev gettext cmake gcc
+sudo apt install libz-dev libssl-dev libcurl4-gnutls-dev libexpar1-dev gettext cmake gcc
+mkdir tmp
+cd /tmp
+curl -o git.tar.gz https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.26.2.tar.gz
+tar -zxf git.tar.gz
+cd git-*
+make prefix=/usr/local all
+sudo apt install make
+make prefix=/usr/local all
+sudo make prefix=/usr/local install
+cd..
+cd ..
+sudo install gcc
+sudo apt install gcc
+cd tmp
+cd git-2.26.2/
+make prefix=/usr/local all
+cd ..
+sudo apt install libz-dev libcurl4-gnutls-dev libecpat1-dev gettext cmake gcc
+sudo apt install libz-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc
+cd tmp
+cd git-*
+make prefix=/usr/local all
+cd ..
+tar -zxf git.tar.gz
+cd git-*
+make prefix=/usr/local all
+cd ..
+sudo apt install openssl-dev libcurl-dev
+sudo apt install libz-dev libcurl4-gnutls-dev libexpat1-dev openssl-dev gettext cmake gcc
+sudo apt install libz-dev libcurl4-gnutls-dev libexpat1-dev libcurl-openssl-dev gettext cmake gcc
+sudo
+bash
+bash
+sudo apt-get update
+git --version
+git update
+git --help
+ls
+cd Documents
+ls
+git clone https://github.com/Dmirandae/nix-BioUIS.git
+cd nix-BioUIS/
+ls
+cd semana1
+ls
+semana1Presentacion.pdf
+evience semana1
+evince semana1.pdf
+Acrobat Reader CD semana1.pdf
+Acrobat Reader CD semana1
+man man
+AcrobatReaderCD semana1
+Acrobat Reader DC semana1
+AcrobatReaderDC semana1
+man man
+man help
+man -help
+man ls
+ls
+ls -C
+ls -sh
+ls -s
+ls -lsh
+#### inicio comentarios
+### ls: lista, -h: leible por humanos
+ls
+file out00
+file out01
+file semana1.pdf
+### file muestra el tipo de archivo, la extencion 
+file pandoc.sh
+stat out
+stat -f out
+stat -t out
+cat out
+cat out>otro
+cat otro{
+cat otro
+##cat: concatenar, x>xx: concatena x en un nuevo archivo xx, y x>>xxx concatena x junto con xxx
+mkdir Directorio1
+mkdir directorio1
+ls
+cp out MiOut
+cat MiOut
+cp Directorio1/MiOut
+mv miout miotroout
+rm miotroout
+rm -r Directorio1
+ls
+pwd
+history -w clase1

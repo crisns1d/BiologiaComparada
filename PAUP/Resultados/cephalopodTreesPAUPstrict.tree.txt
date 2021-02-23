@@ -1,0 +1,64 @@
+#NEXUS 
+
+Begin trees;  [Treefile saved Wed Jan 20 15:12:57 2021]
+[!
+>Data file = cephalopod.nex
+>Heuristic search settings:
+>  Optimality criterion = likelihood
+>    All characters have equal weight
+>    Likelihood settings:
+>                  DNA substitution types = 6
+>                       Exchangeabilities = AC=2.00944 AG=8.62758 AT=6.02815 CG=1.11527 CT=55.1579 GT=1
+>                       State frequencies = user-specified: A=0.325269 C=0.170425 G=0.127667 T=0.376638
+>          Proportion of invariable sites = 0.337804
+>                 Rates at variable sites = gamma, shape=0.361873 (4 categories [mean])
+>                    Model correspondence = GTR+I+G
+>
+>      Number of distinct data patterns under this model = 299
+>      Molecular clock enforced
+>      Starting branch lengths obtained using UPGMA-style averaging
+>      Trees with approximate log likelihoods 5% or further from the target score are rejected without additional iteration
+>      Parameterization for clock optimization = "Thorne"
+>      Multidimensional optimizer = Praxis (tol=0.0001)
+>      Transformations used to enforce bounds on clock-time parameters
+>      Likelihood calculations performed in single precision
+>      Vector processing enabled
+>      Using standard Felsenstein pruning for computing likelihoods
+>      Conditional-likelihood rescaling threshold = 1e-020
+>
+>  Starting tree(s) obtained via stepwise addition
+>    Addition sequence: as-is
+>    Number of trees held at each step = 1
+>  Branch-swapping algorithm: tree-bisection-reconnection (TBR) with reconnection limit = 8
+>    Steepest descent option not in effect
+>  Initial 'Maxtrees' setting = 100
+>  Zero-length branches not collapsed
+>  'MulTrees' option in effect
+>  No topological constraints in effect
+>  Trees are rooted
+>
+>Heuristic search completed
+>  Total number of rearrangements tried = 1411
+>  Score of best tree(s) found = 4442.482
+>  Number of trees retained = 1
+>  Time used = 00:03:29 (CPU time = 00:03:29.7)
+]
+	Translate
+		1 Gonatus_fabricii,
+		2 Gonatopsis_borealis,
+		3 Alluroteuthis_antarcticus,
+		4 Teuthowenia_megalops,
+		5 Joubiniteuthis_sp.,
+		6 Psychroteuthis_glacialis,
+		7 Moroteuthis_knipovitchi,
+		8 Illex_coindetii,
+		9 Metasepia_tullbergi,
+		10 Loliolus_sp.,
+		11 Photololigo_sp.,
+		12 Pterygioteuthis_microlampas,
+		13 Lycoteuthis_lorigera,
+		14 Bathyteuthis_berryi,
+		15 Octopus_ornatus
+		;
+tree 'PAUP_1' = [&R] (((((((((1:0.143646,2:0.143646):0.098546,3:0.242192):0.029635,4:0.271827):0.046355,14:0.318183):0.008917,(5:0.291775,(6:0.257739,7:0.257739):0.034036):0.035325):0.061840,8:0.388939):0.035932,(12:0.338597,13:0.338597):0.086274):0.052156,(9:0.444226,(10:0.288725,11:0.288725):0.155502):0.032801):0.293867,15:0.770894):0;
+End;

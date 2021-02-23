@@ -1,0 +1,8 @@
+TREAD
+((0 1 2) (3 4))*
+((0 1) (2 3 4))*
+;
+proc/;
+
+quote Robinson-Foulds distance between trees 0-1 is '/.3(1)';
+Robinson-Foulds distance between trees 0-1 is 1.000

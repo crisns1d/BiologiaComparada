@@ -1,0 +1,10 @@
+TREAD 'vamos a ver si asi si funciona'
+(0 (1 (2 (3 4))))*
+(0 (1 2) (3 4))
+;
+proc/;
+
+
+
+tnt*>quote Robinson-Foulds distance between trees 0-1 is '/.3(1)';
+Robinson-Foulds distance between trees 0-1 is 0.600

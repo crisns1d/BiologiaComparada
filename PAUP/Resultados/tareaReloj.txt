@@ -1,0 +1,31 @@
+SIN RELOJ: ESTE ES EL MEJOR LIKELIHOOD
+
+L condicional: 1e-020
+-Ln L: 5104.846
+Ti/tv:
+  exp. ratio    1.242118
+  kappa         2.625299
+
+
+
+
+CON RELOJ
+
+L condicional: 1e-020
+-Ln L: 5209.257
+Ti/tv:
+  exp. ratio    1.238105
+  kappa         2.616817
+  
+  
+  
+
+Nula: SIN RELOJ
+Alternativa: CON RELOJ
+
+2*(5209.257 - 5104.846)
+
+Valor chi: 2.09907E-37
+Rechazo la hipotesis nula porque el valor del Chi2 es menos al p-value (0.05)
+
+CONTESTAR: Why is the likelihood score of the alternative model higher than the null model?

@@ -1,0 +1,12 @@
+xread
+'test macros'4 5
+taxon0 0000
+taxon1 0101
+taxon2 1100
+taxon3 1110
+taxon4 1111
+;
+cc + 0;
+proc /;
+optcode u 0;
+;

@@ -1,0 +1,4 @@
+(((Taxon1:0.9,Taxon2:0.9):0.5,Taxon3:0.9):0.1,Taxon4:0.9);
+(((Taxon3:0.1,Taxon2:0.2):0.5,Taxon1:0.1):0.1,Taxon4:0.9);
+(((Taxon4:0.9,Taxon2:0.2):0.5,Taxon3:0.9):0.1,Taxon1:0.9);
+(((Taxon4:0.9,Taxon2:0.9):0.5,Taxon1:0.9):0.1,Taxon3:0.9);

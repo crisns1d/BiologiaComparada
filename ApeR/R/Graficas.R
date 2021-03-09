@@ -4,11 +4,12 @@ library(phangorn)
 library(adephylo)
 library(phylobase)
 library(rgl)
-install.packages("adephylo")
-install.packages("rgl")
 
 getwd()
 setwd("C:/Users/UIS/Downloads/ApeR")
+
+
+
 
 tre1 <- read.tree(text = "(((a:0.7,b:0.2):1.5,d:2):1,c:7);")
 
@@ -24,7 +25,7 @@ plot.phy(tre2, use.edge.length = TRUE, main="Arbol Con Longitud de Ramas Igual")
 dev.off()
 ?plot
 
-###Arboles como cladogramas (forma triangular), en direcci�n de derecha a izquierda
+###Arboles como cladogramas (forma triangular), en dirección de derecha a izquierda
 par(mfrow=c(1,3))
 plot.phylo(tre1, type = "c", direction = "l", use.edge.length = FALSE, main = "Arbol sin longitud de ramas")
 plot.phylo(tre1, type = "c", direction = "l", use.edge.length = TRUE, main="Arbol Con Longitud de Ramas")
@@ -88,11 +89,11 @@ dev.off()
 trape <- read.tree(text = "((Homo,Pan),Gorilla);")
 plot(trape, main= "Arbol con titulos en los nodos")
 nodelabels()
-#rotulos espec�ficos rectangulares
+#rotulos específicos rectangulares
 plot(trape, main= "Arbol con titulos en los nodos")
 nodelabels("Raiz", 4, frame = "r", bg = "white")
 nodelabels("Nodo interno", 5, frame = "r", bg = "white")
-#rotulos espec�ficos circulares
+#rotulos específicos circulares
 plot(trape, main= "Arbol con titulos en los nodos")
 nodelabels("Raiz", 4, frame = "c", bg = "white")
 nodelabels("Nodo interno", 5, frame = "c", bg = "white")
@@ -105,7 +106,7 @@ valores2 <- scan()
 valores3 <- scan()
 valores1
 plot(tre6, no.margin = TRUE, use.edge.length = TRUE, main = "Arbol con valores en los nodos")
-#cex=tama�o letra, font= tipo de letra, adj= ajustar posici�n de la letra (x,y)
+#cex=tamaño letra, font= tipo de letra, adj= ajustar posición de la letra (x,y)
 nodelabels(valores1, adj = c(-0.2, -0.1), frame = "n",
            cex = 0.8, font = 2, col = "purple")
 nodelabels(valores2, adj = c(1.2, -0.5), frame = "n",
@@ -219,7 +220,7 @@ mtext("ln(species richness)", at = 45, side = 1, line = 2)
 axisPhylo()
 
 
-#Combinar 2 gr�ficas en 1
+#Combinar 2 gráficas en 1
 dev.off()
 layout(matrix(c(2, rep(1, 8)), 3, 3))
 wh <- which.edge(bird.orders, 8:23)
@@ -271,7 +272,7 @@ kronoviz(TR, horiz = FALSE, type = "c", show.tip.label=FALSE)
 
 
 
-#Extraer clados de una topolog�a grande
+#Extraer clados de una topología grande
 dev.off()
 data(chiroptera)
 tr <- drop.tip(chiroptera, 16:916, subtree = TRUE)
@@ -375,5 +376,145 @@ colo2[9:10] <- colores2[5]
 
 plot(tr, no.margin = FALSE, font = 1, tip.color = colo, edge.color = colo2)
 nodelabels(node = 7:11, pch = 21, bg = f, cex = 2)
+
+
+
+
+t1 <- read.tree(text = "(c:2,(a:1,b:1):1);")
+t2 <- read.tree(text = "(c:4,(a:2,b:2):2);")
+tmax <- speciesTree(list(t1, t2))
+all.equal(tmax, t1)
+
+tsha <- speciesTree(list(t1, t2), sum)
+kronoviz(list(t1, t2, tmax, tsha), type = "c")
+
+
+
+
+
+
+
+
+
+##################CONTRASTES INDEPENDIENTES######################
+
+
+
+#Arbol con contrastes en los nodos
+par(mar=c(3,3,3,3))
+
+TreePrimates <- read.tree(text="((((Homo:0.21,Pongo:0.21):0.28,Macaca:0.49):0.13,Ateles:0.62):0.38,Galago:1.00);")
+TreePrimates
+body <- c(4.09434, 3.61092, 2.37024, 2.02815, -1.46968)
+longevity <- c(4.74493, 3.3322, 3.3673, 2.89037, 2.30259)
+names(body) <- names(longevity) <- c("Homo", "Pongo", "Macaca", "Ateles", "Galago")
+#Calculo de contrastes
+pic.body <- pic(body, tree.primates)
+pic.longevity <- pic(longevity, tree.primates)
+pic.body
+pic.longevity
+
+plot(tree.primates)
+edgelabels()
+wh <- which.edge(tree.primates, 1:2)
+colo <- rep("black", Nedge(tree.primates))
+colo[wh] <- "pink"
+plot(tree.primates, "p", FALSE, font = 1, no.margin = TRUE, edge.color=colo)
+nodelabels(round(pic.body, 3), adj = c(0, -0.5), frame = "n", col = "blue")
+nodelabels(round(pic.longevity, 3), adj = c(0, 1), frame = "n", col = "purple")
+
+#Grafica de correlación de los contrastes
+plot(pic.body, pic.longevity)
+abline(a = 2.56, b = -0.5, lty = 1) # x = y line
+?abline
+
+
+
+lm(pic.longevity ~ pic.body - 1)
+lmorigin(pic.longevity ~ pic.body, nperm = 1e4)
+lmorigin(pic.longevity ~ pic.body, nperm = 100)
+lmorigin(pic.longevity ~ pic.body, nperm = 1000)
+
+
+#Cambio la diagonal de la matriz a 0
+w <- 1/cophenetic(tree.primates)
+diag(w) <- 0 # OR: w[w == Inf] <- 0
+Moran.I(body, w)
+
+#Que pasas si no cambio la diagonal
+w1 <-  1/cophenetic(tree.primates)
+diag(w1)
+Moran.I(body, w)
+
+
+#Calcular gearymoran
+gearymoran(w, data.frame(body, longevity))
+
+
+#Calcular Moran pero de la distancia cofenetica normal
+Moran.I(longevity, cophenetic(tree.primates))
+
+#Calculo abouheif.moran
+abouheif.moran(cbind(body, longevity), w)
+
+
+X <- phylo4d(tree.primates, data.frame(body, longevity))
+abouheif.moran(X)
+
+
+data(carnivora)
+frm <- SW ~ Order/SuperFamily/Family/Genus
+correl.carn <- correlogram.formula(frm, data = carnivora)
+correl.carn
+
+plot(correl.carn, col = c("white", "black"), adj = 1, cex=1)
+
+
+tr <- rtree(3)
+treePart(tr)
+treePart(tr, "orthobasis")
+as.matrix(orthobasis.phylo(tr))
+
+B <- as.matrix(orthobasis.phylo(tree.primates))
+X <- B[, 1:2]
+X
+anova(lm(body ~ X))
+anova(lm(longevity ~ X))
+par(mfrow=c(1,2))
+orthogram(body, tree.primates)
+orthogram(longevity, tree.primates)
+dev.off()
+
+tr <- rtree(30)
+X <- matrix(rnorm(150), 30, 5)
+rownames(X) <- tr$tip.label
+X2 <- replicate(5, rTraitCont(tr))
+dat <- phylo4d(tr, X)
+dat2 <- phylo4d(tr, X2)
+res <- ppca(dat)
+res2 <- ppca(dat2)
+plot(res)
+plot(res2)
+
+
+
+x <- cumsum(c(0, rnorm(99)))
+x <- numeric(100)
+for (i in 1:99)
+        x[i + 1] <- x[i] - 0.2 * x[i] + rnorm(1)
+X <- replicate(100, cumsum(c(0, rnorm(99))))
+sim.ou <- function() {
+        x <- numeric(100)
+        for (i in 1:99)
+                x[i + 1] <- x[i] - 0.2 * x[i] + rnorm(1)
+        x # returns the value of x
+}
+X2 <- replicate(50, sim.ou())
+var(X[100 ,])
+var(X2[100 ,])
+layout(matrix(1:2, 1, 2))
+yl <- range(X)
+matplot(X, ylim = yl, type = "l", col = 1, main = "Brownian")
+matplot(X2, ylim = yl, type = "l", col = 1, main = "OU")
 
 

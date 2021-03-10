@@ -1,0 +1,66 @@
+#NEXUS 
+
+Begin trees;  [Treefile saved Tue Mar 09 23:26:22 2021]
+[!
+>Data file = Matriz_ET2.nex
+>Heuristic search settings:
+>  Optimality criterion = likelihood
+>    All characters have equal weight
+>
+>    NOTE: 6 all-missing characters ignored in likelihood analyses.
+>
+>    Likelihood settings:
+>                               Data type = standard
+>                       Exchangeabilities = Poisson/proportional model (OneST)
+>                       State frequencies = empirical: 0=0.0275793 1=0.0153159 2=0.0024355 3=0.000347477 4=1e-005 5=1e-005 6=1e-005
+>                                                      7=1e-005 A=0.293511 C=0.229953 G=0.176495 T=0.254363
+>          Proportion of invariable sites = estimated
+>                 Rates at variable sites = gamma, shape=estimated (6 categories [mean])
+>
+>      Number of distinct data patterns under this model = 1752
+>      Molecular clock not enforced
+>      Starting branch lengths obtained using Rogers-Swofford approximation method
+>      Trees with approximate log likelihoods 5% or further from the target score are rejected without additional iteration
+>      Branch-length optimization = one-dimensional Newton-Raphson with pass limit=20, tolerance=1e-007
+>      Multidimensional optimizer = Praxis (tol=0.0001)
+>      Likelihood calculations performed in single precision
+>      Vector processing enabled
+>      Using standard Felsenstein pruning for computing likelihoods
+>      Conditional-likelihood rescaling threshold = 1e-020
+>
+>  Starting tree(s) obtained via stepwise addition
+>    Addition sequence: as-is
+>    Number of trees held at each step = 1
+>  Branch-swapping algorithm: tree-bisection-reconnection (TBR) with reconnection limit = 8
+>    Steepest descent option not in effect
+>  Initial 'Maxtrees' setting = 100
+>  Branches collapsed (creating polytomies) if branch length is less than or equal to 1e-008
+>  'MulTrees' option in effect
+>  No topological constraints in effect
+>  Trees are unrooted
+>
+>Heuristic search completed
+>  Total number of rearrangements tried = 1211
+>  Score of best tree(s) found = 33750.14
+>  Number of trees retained = 1
+>  Time used = 01:53:36 (CPU time = 07:32:28.4)
+]
+	Translate
+		1 Proganochelys_quenstedti,
+		2 Chelus_fimbriata,
+		3 Pelusios_castaneus,
+		4 Pelusios_castanoides,
+		5 Pelomedusa_subrufa,
+		6 Acleistochelys_maliensis,
+		7 Ummulisani_rutgersensis,
+		8 Podocnemis_lewyana,
+		9 Podocnemis_unifilis,
+		10 Podocnemis_erythrocephala,
+		11 Podocnemis_expansa,
+		12 Caninemys_tridentata,
+		13 Carbonemys_cofrinii,
+		14 Peltocephalus_dumerilianus,
+		15 Erymnochelys_madagascariensis
+		;
+tree 'PAUP_1' = [&R] (1:0.184333,(2:0.121929,(((3:0.025771,4:0.022928):0.023836,5:0.056082):0.055205,((6:0.115033,7:0.278939):0.189299,((((((8:0.026461,10:0.034007):0.012161,9:0.029232):0.007277,11:0.031200):0.025705,12:0.049163):0.018967,13:0.050985):0.004922,(14:0.076320,15:0.076893):0.008503):0.017587):0.019289):0.077021):0):0;
+End;

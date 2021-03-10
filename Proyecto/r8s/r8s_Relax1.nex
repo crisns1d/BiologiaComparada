@@ -1,0 +1,39 @@
+#NEXUS 
+
+Begin trees;
+	
+	Translate
+		1 Proganochelys_quenstedti,
+		2 Chelus_fimbriata,
+		3 Pelusios_castaneus,
+		4 Pelusios_castanoides,
+		5 Pelomedusa_subrufa,
+		6 Bothremys_maghrebiana,
+		7 Acleistochelys_maliensis,
+		8 Ummulisani_rutgersensis,
+		9 Podocnemis_lewyana,
+		10 Podocnemis_unifilis,
+		11 Podocnemis_erythrocephala,
+		12 Podocnemis_expansa,
+		13 Caninemys_tridentata,
+		14 Carbonemys_cofrinii,
+		15 Peltocephalus_dumerilianus,
+		16 Erymnochelys_madagascariensis,
+		17 Bairdemys_thalassica
+		;
+tree 'PAUP_1' = [&R] (1:0.198061,(2:0.122706,(((3:0.025655,4:0.023123):0.024427,5:0.055592):0.054662,(((6:0.259666,7:0.091240)clade1:0.084861,8:0.251557):0.168931,(((((((9:0.026527,11:0.034188):0.012279,10:0.029191):0.007559,12:0.031067):0.023048,(13:0.009602,17:0.308054):0.036766):0.024931,16:0.077806):0.007677,15:0.077838):0.002465,14:0.044035):0.016573):0.017287):0.074445))rt;
+End;
+
+
+
+begin r8s;
+blformat lengths=persite nsites=8493 ultrametric=no;
+collapse;
+fixage taxon=clade1 age=60;
+constrain taxon=rt min_age=130 max_age=170;
+divtime method=LF;
+showage;
+describe plot=cladogram;
+describe plot=chrono_description;
+set num_time_guesses=3;
+end;

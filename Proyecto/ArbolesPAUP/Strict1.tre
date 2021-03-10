@@ -1,0 +1,69 @@
+#NEXUS 
+
+Begin trees;  [Treefile saved Tue Mar 09 08:04:21 2021]
+[!
+>Data file = Matriz_ET1.nex
+>Heuristic search settings:
+>  Optimality criterion = likelihood
+>    All characters have equal weight
+>
+>    NOTE: 6 all-missing characters ignored in likelihood analyses.
+>
+>    Likelihood settings:
+>                               Data type = standard
+>                       Exchangeabilities = Poisson/proportional model (OneST)
+>                       State frequencies = empirical: 0=0.0292143 1=0.0169103 2=0.00280348 3=0.000362378 4=1e-005 5=1e-005 6=1e-005
+>                                                      7=1e-005 A=0.2924 C=0.229083 G=0.175827 T=0.2534
+>          Proportion of invariable sites = estimated
+>                 Rates at variable sites = gamma, shape=estimated (6 categories [mean])
+>
+>      Number of distinct data patterns under this model = 1769
+>      Molecular clock enforced
+>      Starting branch lengths obtained using UPGMA-style averaging
+>      Trees with approximate log likelihoods 5% or further from the target score are rejected without additional iteration
+>      Parameterization for clock optimization = "Thorne"
+>      Multidimensional optimizer = Praxis (tol=0.0001)
+>      Transformations used to enforce bounds on clock-time parameters
+>      Likelihood calculations performed in single precision
+>      Vector processing enabled
+>      Using standard Felsenstein pruning for computing likelihoods
+>      Conditional-likelihood rescaling threshold = 1e-020
+>
+>  Starting tree(s) obtained via stepwise addition
+>    Addition sequence: as-is
+>    Number of trees held at each step = 1
+>  Branch-swapping algorithm: tree-bisection-reconnection (TBR) with reconnection limit = 8
+>    Steepest descent option not in effect
+>  Initial 'Maxtrees' setting = 100
+>  Zero-length branches not collapsed
+>  'MulTrees' option in effect
+>  No topological constraints in effect
+>  Trees are rooted
+>
+>Heuristic search completed
+>  Total number of rearrangements tried = 2098
+>  Score of best tree(s) found = 34260.18
+>  Number of trees retained = 1
+>  Time used = 06:32:30 (CPU time = 01:58:46.0)
+]
+	Translate
+		1 Proganochelys_quenstedti,
+		2 Chelus_fimbriata,
+		3 Pelusios_castaneus,
+		4 Pelusios_castanoides,
+		5 Pelomedusa_subrufa,
+		6 Bothremys_maghrebiana,
+		7 Acleistochelys_maliensis,
+		8 Ummulisani_rutgersensis,
+		9 Podocnemis_lewyana,
+		10 Podocnemis_unifilis,
+		11 Podocnemis_erythrocephala,
+		12 Podocnemis_expansa,
+		13 Caninemys_tridentata,
+		14 Carbonemys_cofrinii,
+		15 Peltocephalus_dumerilianus,
+		16 Erymnochelys_madagascariensis,
+		17 Bairdemys_thalassica
+		;
+tree 'PAUP_1' = [&R] (1:0.162989,(2:0.162987,((((3:0.024848,4:0.024848):0.027788,5:0.052637):0.062443,((((((9:0.028844,11:0.028844):0.009156,(10:0.033212,12:0.033212):0.004788):0.022387,13:0.060387):0.024072,(15:0.074763,16:0.074763):0.009697):0.003568,14:0.088028):0.004566,17:0.092594):0.022486):0.030540,((6:0.077553,7:0.077553):0.027398,8:0.104951):0.040668):0.017368):1.74690e-006):0;
+End;
